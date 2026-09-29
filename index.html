@@ -3,170 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b0d10">
-
+<meta name="theme-color" content="#080b0a">
 <title>Lean Machine Fitness</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+  --bg:#080b0a;
+  --card:#121715;
+  --card2:#181e1b;
+  --green:#8cff38;
+  --text:#fff;
+  --muted:#9ca7a0;
+  --border:#29312d;
+  --red:#ff5f5f;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #0b0d10;
-  color: white;
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-.app {
-  max-width: 500px;
-  margin: auto;
-  padding: 24px 18px 110px;
+.app{
+  max-width:520px;
+  margin:auto;
+  padding:24px 18px 110px;
 }
 
-.logo {
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: #91ff63;
-  font-weight: 800;
+.logo{
+  color:var(--green);
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:3px;
 }
 
-h1 {
-  font-size: 32px;
-  margin: 8px 0 2px;
+h1{
+  font-size:31px;
+  margin:8px 0 3px;
 }
 
-.subtitle {
-  color: #8d929a;
-  margin-bottom: 25px;
+.subtitle{
+  color:var(--muted);
+  margin-bottom:22px;
 }
 
-.card {
-  background: #15181d;
-  border: 1px solid #24282e;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 15px;
+.page{display:none}
+.page.active{display:block}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
 }
 
-.label {
-  color: #8d929a;
-  font-size: 13px;
+.card h2{
+  margin:0 0 15px;
+  font-size:18px;
 }
 
-.big {
-  font-size: 36px;
-  font-weight: 800;
-  margin-top: 4px;
+.big{
+  font-size:31px;
+  font-weight:900;
 }
 
-.green {
-  color: #91ff63;
+.green{color:var(--green)}
+.muted{color:var(--muted)}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.stat {
-  flex: 1;
+.stat{
+  background:var(--card2);
+  padding:14px;
+  border-radius:15px;
 }
 
-.progress {
-  background: #292d33;
-  height: 9px;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 14px;
+.stat small{
+  display:block;
+  color:var(--muted);
+  margin-bottom:6px;
 }
 
-.progress div {
-  background: #91ff63;
-  height: 100%;
-  border-radius: 20px;
+.progress{
+  height:9px;
+  background:#252c28;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:12px;
 }
 
-.macros {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 18px;
+.progress div{
+  height:100%;
+  background:var(--green);
+  border-radius:20px;
 }
 
-.macro {
-  text-align: center;
+input{
+  width:100%;
+  background:#0c100e;
+  border:1px solid var(--border);
+  color:white;
+  border-radius:12px;
+  padding:13px;
+  margin:5px 0;
+  font-size:16px;
 }
 
-.macro strong {
-  display: block;
-  font-size: 18px;
+button{
+  width:100%;
+  border:0;
+  background:var(--green);
+  color:#081005;
+  padding:13px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+  margin-top:8px;
 }
 
-button {
-  width: 100%;
-  border: none;
-  background: #91ff63;
-  color: #081005;
-  padding: 16px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 800;
-  margin-top: 14px;
-  cursor: pointer;
+.secondary{
+  background:#242b27;
+  color:white;
 }
 
-.secondary {
-  background: #24282e;
-  color: white;
+.danger{
+  background:#351c1c;
+  color:#ff8585;
 }
 
-input {
-  width: 100%;
-  background: #0d1014;
-  color: white;
-  border: 1px solid #30353c;
-  padding: 14px;
-  border-radius: 12px;
-  margin-top: 8px;
-  font-size: 16px;
+.foodItem,.workoutItem,.historyItem{
+  background:var(--card2);
+  border-radius:14px;
+  padding:13px;
+  margin-top:9px;
 }
 
-.meal {
-  padding: 13px 0;
-  border-bottom: 1px solid #292d33;
+.foodItem button,.workoutItem button{
+  width:auto;
+  padding:7px 10px;
+  margin:0;
+  font-size:12px;
 }
 
-.meal:last-child {
-  border-bottom: none;
+.macroRow{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
 }
 
-.nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 500px;
-  width: 100%;
-  background: rgba(16,18,22,.97);
-  border-top: 1px solid #292d33;
-  display: flex;
-  justify-content: space-around;
-  padding: 13px 5px 25px;
+.macro{
+  text-align:center;
+  background:var(--card2);
+  padding:12px 5px;
+  border-radius:12px;
 }
 
-.nav span {
-  color: #8d929a;
-  font-size: 12px;
+.macro strong{
+  display:block;
+  font-size:18px;
 }
 
-.nav .active {
-  color: #91ff63;
+.empty{
+  color:var(--muted);
+  text-align:center;
+  padding:20px 5px;
 }
 
-.hidden {
-  display: none;
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#0d110f;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:center;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.navInner{
+  width:100%;
+  max-width:520px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+
+.nav button{
+  background:none;
+  color:#7f8983;
+  margin:0;
+  padding:15px 4px 13px;
+  border-radius:0;
+  font-size:12px;
+}
+
+.nav button.active{
+  color:var(--green);
+}
+
+.navIcon{
+  display:block;
+  font-size:20px;
+  margin-bottom:4px;
+}
+
+.sectionTitle{
+  margin:3px 0 15px;
+  font-size:27px;
+}
+
+.date{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:15px;
 }
 </style>
 </head>
@@ -175,301 +241,643 @@ input {
 
 <div class="app">
 
-  <div class="logo">LEAN MACHINE</div>
+<div class="logo">LEAN MACHINE</div>
+
+<!-- HOME -->
+<section id="home" class="page active">
   <h1>Today's Mission</h1>
   <div class="subtitle">Get lean. Stay strong.</div>
+  <div class="date todayDate"></div>
 
   <div class="card">
-
     <div class="row">
-
-      <div class="stat">
-        <div class="label">CURRENT</div>
-        <div class="big">
-          <span id="currentWeight">220</span>
-          <small>lb</small>
-        </div>
+      <div>
+        <span class="muted">Current Weight</span>
+        <div class="big"><span id="currentWeight">220</span> lb</div>
       </div>
-
-      <div class="stat">
-        <div class="label">GOAL</div>
-        <div class="big green">200<small>lb</small></div>
+      <div style="text-align:right">
+        <span class="muted">Goal</span>
+        <div class="big green">200</div>
       </div>
-
     </div>
 
     <div class="progress">
       <div id="weightProgress" style="width:0%"></div>
     </div>
 
-    <button class="secondary" onclick="changeWeight()">
-      Log Today's Weight
-    </button>
-
+    <input id="weightInput" type="number" step="0.1" placeholder="Today's weight (lb)">
+    <button onclick="logWeight()">Log Today's Weight</button>
   </div>
 
   <div class="card">
-
-    <div class="label">TODAY'S CALORIES</div>
-
-    <div class="big">
-      <span id="calories">0</span>
-      <small>/ 2400</small>
+    <h2>Calories</h2>
+    <div class="row">
+      <div class="big"><span id="homeCalories">0</span></div>
+      <div class="muted">/ 2400 kcal</div>
     </div>
 
     <div class="progress">
       <div id="calorieProgress" style="width:0%"></div>
     </div>
 
-    <div class="macros">
-
+    <div class="macroRow">
       <div class="macro">
-        <strong id="protein">0g</strong>
-        <span class="label">Protein</span>
+        <strong id="homeProtein">0g</strong>
+        <span class="muted">Protein</span>
       </div>
-
       <div class="macro">
-        <strong id="carbs">0g</strong>
-        <span class="label">Carbs</span>
+        <strong id="homeCarbs">0g</strong>
+        <span class="muted">Carbs</span>
       </div>
-
       <div class="macro">
-        <strong id="fat">0g</strong>
-        <span class="label">Fat</span>
+        <strong id="homeFat">0g</strong>
+        <span class="muted">Fat</span>
       </div>
+    </div>
+  </div>
 
+  <div class="grid">
+    <div class="card">
+      <span class="muted">Steps</span>
+      <div class="big"><span id="stepDisplay">0</span></div>
+      <small class="muted">Goal 10,000</small>
+      <input id="stepsInput" type="number" placeholder="Steps">
+      <button onclick="updateSteps()">Update</button>
     </div>
 
-    <button onclick="toggleFood()">+ Add Food</button>
-
-  </div>
-
-
-  <div id="foodForm" class="card hidden">
-
-    <div class="label">ADD FOOD</div>
-
-    <input id="foodName" placeholder="Food name">
-
-    <input id="foodCalories" type="number" placeholder="Calories">
-
-    <input id="foodProtein" type="number" placeholder="Protein (g)">
-
-    <input id="foodCarbs" type="number" placeholder="Carbs (g)">
-
-    <input id="foodFat" type="number" placeholder="Fat (g)">
-
-    <button onclick="addFood()">Save Food</button>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="label">TODAY'S FOOD</div>
-
-    <div id="foodList">
-      <div class="meal">Nothing logged yet.</div>
+    <div class="card">
+      <span class="muted">Creatine</span>
+      <div class="big"><span id="creatineDisplay">0</span>g</div>
+      <small class="muted">Goal 5g</small>
+      <button id="creatineBtn" onclick="takeCreatine()">Mark 5g Taken</button>
     </div>
-
   </div>
+</section>
 
+
+<!-- FOOD -->
+<section id="food" class="page">
+  <h1 class="sectionTitle">Food</h1>
+  <div class="subtitle">Fuel the machine.</div>
+  <div class="date todayDate"></div>
 
   <div class="card">
+    <h2>Today's Nutrition</h2>
 
     <div class="row">
-
-      <div>
-        <div class="label">DAILY STEPS</div>
-        <div class="big"><span id="steps">0</span></div>
-        <div class="label">Goal: 10,000</div>
-      </div>
-
-      <div>
-        <div class="label">CREATINE</div>
-        <div class="big">5g</div>
-      </div>
-
+      <div class="big"><span id="foodCalories">0</span></div>
+      <div class="muted">/ 2400 kcal</div>
     </div>
 
-    <button class="secondary" onclick="logSteps()">
-      Update Steps
-    </button>
+    <div class="progress">
+      <div id="foodCalorieProgress" style="width:0%"></div>
+    </div>
 
+    <div class="macroRow">
+      <div class="macro">
+        <strong id="foodProtein">0g</strong>
+        <span class="muted">Protein</span>
+      </div>
+      <div class="macro">
+        <strong id="foodCarbs">0g</strong>
+        <span class="muted">Carbs</span>
+      </div>
+      <div class="macro">
+        <strong id="foodFat">0g</strong>
+        <span class="muted">Fat</span>
+      </div>
+    </div>
   </div>
-
 
   <div class="card">
+    <h2>+ Add Food</h2>
 
-    <div class="label">STRENGTH</div>
+    <input id="foodName" placeholder="Food name">
+    <input id="foodCals" type="number" placeholder="Calories">
+    <input id="foodProteinInput" type="number" placeholder="Protein (g)">
+    <input id="foodCarbsInput" type="number" placeholder="Carbs (g)">
+    <input id="foodFatInput" type="number" placeholder="Fat (g)">
 
-    <div class="meal">🏋️ Bench Press</div>
-    <div class="meal">🦵 Squat</div>
-    <div class="meal">⚡ Deadlift</div>
-
+    <button onclick="addFood()">Add Food</button>
   </div>
+
+  <div class="card">
+    <h2>Today's Food</h2>
+    <div id="foodList"></div>
+  </div>
+</section>
+
+
+<!-- TRAINING -->
+<section id="training" class="page">
+  <h1 class="sectionTitle">Training</h1>
+  <div class="subtitle">Build strength. Keep muscle.</div>
+  <div class="date todayDate"></div>
+
+  <div class="card">
+    <h2>Log Exercise</h2>
+
+    <input id="exerciseName" placeholder="Exercise e.g. Bench Press">
+    <input id="exerciseWeight" type="number" step="0.5" placeholder="Weight (lb)">
+    <input id="exerciseSets" type="number" placeholder="Sets">
+    <input id="exerciseReps" type="number" placeholder="Reps">
+
+    <button onclick="addWorkout()">Add Exercise</button>
+  </div>
+
+  <div class="card">
+    <h2>Today's Workout</h2>
+    <div id="workoutList"></div>
+  </div>
+</section>
+
+
+<!-- PROGRESS -->
+<section id="progressPage" class="page">
+  <h1 class="sectionTitle">Progress</h1>
+  <div class="subtitle">Results over time.</div>
+
+  <div class="card">
+    <h2>Weight Goal</h2>
+
+    <div class="row">
+      <div>
+        <span class="muted">Starting</span>
+        <div class="big">220</div>
+      </div>
+
+      <div style="text-align:center">
+        <span class="muted">Current</span>
+        <div class="big green" id="progressCurrentWeight">220</div>
+      </div>
+
+      <div style="text-align:right">
+        <span class="muted">Goal</span>
+        <div class="big">200</div>
+      </div>
+    </div>
+
+    <div class="progress">
+      <div id="progressWeightBar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Weight History</h2>
+    <div id="weightHistory"></div>
+  </div>
+</section>
 
 </div>
 
 
+<!-- NAVIGATION -->
 <div class="nav">
+  <div class="navInner">
 
-  <span class="active">●<br>Home</span>
-  <span>●<br>Food</span>
-  <span>●<br>Training</span>
-  <span>●<br>Progress</span>
+    <button class="navBtn active" onclick="showPage('home',this)">
+      <span class="navIcon">⌂</span>
+      Home
+    </button>
 
+    <button class="navBtn" onclick="showPage('food',this)">
+      <span class="navIcon">＋</span>
+      Food
+    </button>
+
+    <button class="navBtn" onclick="showPage('training',this)">
+      <span class="navIcon">◆</span>
+      Training
+    </button>
+
+    <button class="navBtn" onclick="showPage('progressPage',this)">
+      <span class="navIcon">↗</span>
+      Progress
+    </button>
+
+  </div>
 </div>
 
 
 <script>
 
-let data = JSON.parse(localStorage.getItem("leanMachine")) || {
-  weight: 220,
-  calories: 0,
-  protein: 0,
-  carbs: 0,
-  fat: 0,
-  steps: 0,
-  foods: []
-};
+const CALORIE_GOAL = 2400;
+const PROTEIN_GOAL = 200;
+const START_WEIGHT = 220;
+const GOAL_WEIGHT = 200;
 
-function save() {
-  localStorage.setItem("leanMachine", JSON.stringify(data));
+function dateKey(){
+  const d = new Date();
+  return (
+    d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0") + "-" +
+    String(d.getDate()).padStart(2,"0")
+  );
+}
+
+function defaultData(){
+  return {
+    currentWeight: START_WEIGHT,
+    weightHistory: [],
+    days: {}
+  };
+}
+
+let data;
+
+try{
+  data = JSON.parse(localStorage.getItem("leanMachineV2")) || defaultData();
+}catch{
+  data = defaultData();
+}
+
+function todayData(){
+  const key = dateKey();
+
+  if(!data.days[key]){
+    data.days[key] = {
+      foods: [],
+      workouts: [],
+      steps: 0,
+      creatine: false
+    };
+  }
+
+  return data.days[key];
+}
+
+function save(){
+  localStorage.setItem("leanMachineV2",JSON.stringify(data));
+}
+
+function showPage(pageId,button){
+
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  document.getElementById(pageId).classList.add("active");
+
+  document.querySelectorAll(".navBtn").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  window.scrollTo(0,0);
+
   render();
 }
 
-function render() {
+function nutritionTotals(){
 
-  document.getElementById("currentWeight").innerText = data.weight;
+  const foods = todayData().foods;
 
-  document.getElementById("calories").innerText = data.calories;
+  return foods.reduce((total,food)=>{
+    total.calories += Number(food.calories)||0;
+    total.protein += Number(food.protein)||0;
+    total.carbs += Number(food.carbs)||0;
+    total.fat += Number(food.fat)||0;
+    return total;
+  },{
+    calories:0,
+    protein:0,
+    carbs:0,
+    fat:0
+  });
+}
 
-  document.getElementById("protein").innerText = data.protein + "g";
+function addFood(){
 
-  document.getElementById("carbs").innerText = data.carbs + "g";
+  const name = document.getElementById("foodName").value.trim();
+  const calories = Number(document.getElementById("foodCals").value);
+  const protein = Number(document.getElementById("foodProteinInput").value)||0;
+  const carbs = Number(document.getElementById("foodCarbsInput").value)||0;
+  const fat = Number(document.getElementById("foodFatInput").value)||0;
 
-  document.getElementById("fat").innerText = data.fat + "g";
-
-  document.getElementById("steps").innerText =
-    data.steps.toLocaleString();
-
-
-  let caloriePercent =
-    Math.min((data.calories / 2400) * 100, 100);
-
-  document.getElementById("calorieProgress").style.width =
-    caloriePercent + "%";
-
-
-  let weightPercent =
-    Math.min(((220 - data.weight) / 20) * 100, 100);
-
-  document.getElementById("weightProgress").style.width =
-    weightPercent + "%";
-
-
-  let list = document.getElementById("foodList");
-
-  if (data.foods.length === 0) {
-
-    list.innerHTML =
-      '<div class="meal">Nothing logged yet.</div>';
-
-  } else {
-
-    list.innerHTML = data.foods.map(food =>
-      `<div class="meal">
-        <strong>${food.name}</strong><br>
-        <span class="label">
-          ${food.calories} kcal •
-          ${food.protein}g protein
-        </span>
-      </div>`
-    ).join("");
-
+  if(!name || !calories){
+    alert("Enter a food name and calories.");
+    return;
   }
 
-}
-
-
-function toggleFood() {
-
-  document
-    .getElementById("foodForm")
-    .classList.toggle("hidden");
-
-}
-
-
-function addFood() {
-
-  let food = {
-
-    name:
-      document.getElementById("foodName").value || "Food",
-
-    calories:
-      Number(document.getElementById("foodCalories").value),
-
-    protein:
-      Number(document.getElementById("foodProtein").value),
-
-    carbs:
-      Number(document.getElementById("foodCarbs").value),
-
-    fat:
-      Number(document.getElementById("foodFat").value)
-
-  };
-
-
-  data.foods.push(food);
-
-  data.calories += food.calories;
-  data.protein += food.protein;
-  data.carbs += food.carbs;
-  data.fat += food.fat;
+  todayData().foods.push({
+    id:Date.now(),
+    name,
+    calories,
+    protein,
+    carbs,
+    fat
+  });
 
   save();
 
-  document.getElementById("foodForm")
-    .classList.add("hidden");
+  document.getElementById("foodName").value="";
+  document.getElementById("foodCals").value="";
+  document.getElementById("foodProteinInput").value="";
+  document.getElementById("foodCarbsInput").value="";
+  document.getElementById("foodFatInput").value="";
 
+  render();
 }
 
+function deleteFood(id){
 
-function changeWeight() {
+  todayData().foods =
+    todayData().foods.filter(food=>food.id!==id);
 
-  let weight =
-    prompt("Enter today's weight (lb):", data.weight);
+  save();
+  render();
+}
 
-  if (weight) {
+function logWeight(){
 
-    data.weight = Number(weight);
+  const input = document.getElementById("weightInput");
+  const weight = Number(input.value);
 
-    save();
-
+  if(!weight){
+    alert("Enter your weight.");
+    return;
   }
 
-}
+  data.currentWeight = weight;
 
+  const existing =
+    data.weightHistory.find(item=>item.date===dateKey());
 
-function logSteps() {
-
-  let steps =
-    prompt("How many steps today?", data.steps);
-
-  if (steps) {
-
-    data.steps = Number(steps);
-
-    save();
-
+  if(existing){
+    existing.weight = weight;
+  }else{
+    data.weightHistory.push({
+      date:dateKey(),
+      weight
+    });
   }
 
+  input.value="";
+
+  save();
+  render();
 }
 
+function updateSteps(){
+
+  const value =
+    Number(document.getElementById("stepsInput").value);
+
+  todayData().steps = value || 0;
+
+  document.getElementById("stepsInput").value="";
+
+  save();
+  render();
+}
+
+function takeCreatine(){
+
+  todayData().creatine = !todayData().creatine;
+
+  save();
+  render();
+}
+
+function addWorkout(){
+
+  const name =
+    document.getElementById("exerciseName").value.trim();
+
+  const weight =
+    Number(document.getElementById("exerciseWeight").value)||0;
+
+  const sets =
+    Number(document.getElementById("exerciseSets").value)||0;
+
+  const reps =
+    Number(document.getElementById("exerciseReps").value)||0;
+
+  if(!name){
+    alert("Enter an exercise.");
+    return;
+  }
+
+  todayData().workouts.push({
+    id:Date.now(),
+    name,
+    weight,
+    sets,
+    reps
+  });
+
+  save();
+
+  document.getElementById("exerciseName").value="";
+  document.getElementById("exerciseWeight").value="";
+  document.getElementById("exerciseSets").value="";
+  document.getElementById("exerciseReps").value="";
+
+  render();
+}
+
+function deleteWorkout(id){
+
+  todayData().workouts =
+    todayData().workouts.filter(item=>item.id!==id);
+
+  save();
+  render();
+}
+
+function render(){
+
+  const day = todayData();
+  const totals = nutritionTotals();
+
+  document.querySelectorAll(".todayDate").forEach(el=>{
+    el.textContent =
+      new Date().toLocaleDateString(undefined,{
+        weekday:"long",
+        month:"long",
+        day:"numeric"
+      });
+  });
+
+  document.getElementById("currentWeight").textContent =
+    data.currentWeight;
+
+  document.getElementById("progressCurrentWeight").textContent =
+    data.currentWeight;
+
+  const lost = START_WEIGHT-data.currentWeight;
+  const totalToLose = START_WEIGHT-GOAL_WEIGHT;
+
+  const weightPct =
+    Math.max(0,Math.min(100,(lost/totalToLose)*100));
+
+  document.getElementById("weightProgress").style.width =
+    weightPct+"%";
+
+  document.getElementById("progressWeightBar").style.width =
+    weightPct+"%";
+
+
+  document.getElementById("homeCalories").textContent =
+    totals.calories;
+
+  document.getElementById("foodCalories").textContent =
+    totals.calories;
+
+  const caloriePct =
+    Math.min(100,(totals.calories/CALORIE_GOAL)*100);
+
+  document.getElementById("calorieProgress").style.width =
+    caloriePct+"%";
+
+  document.getElementById("foodCalorieProgress").style.width =
+    caloriePct+"%";
+
+
+  document.getElementById("homeProtein").textContent =
+    totals.protein+"g";
+
+  document.getElementById("homeCarbs").textContent =
+    totals.carbs+"g";
+
+  document.getElementById("homeFat").textContent =
+    totals.fat+"g";
+
+  document.getElementById("foodProtein").textContent =
+    totals.protein+"g";
+
+  document.getElementById("foodCarbs").textContent =
+    totals.carbs+"g";
+
+  document.getElementById("foodFat").textContent =
+    totals.fat+"g";
+
+
+  document.getElementById("stepDisplay").textContent =
+    day.steps.toLocaleString();
+
+  document.getElementById("creatineDisplay").textContent =
+    day.creatine ? "5" : "0";
+
+  document.getElementById("creatineBtn").textContent =
+    day.creatine ? "✓ 5g Taken" : "Mark 5g Taken";
+
+
+  const foodList =
+    document.getElementById("foodList");
+
+  if(day.foods.length===0){
+
+    foodList.innerHTML =
+      '<div class="empty">No food logged yet.</div>';
+
+  }else{
+
+    foodList.innerHTML =
+      day.foods.map(food=>`
+
+      <div class="foodItem">
+
+        <div class="row">
+
+          <div>
+            <strong>${escapeHTML(food.name)}</strong>
+            <div class="muted">
+              ${food.calories} kcal ·
+              ${food.protein}g P ·
+              ${food.carbs}g C ·
+              ${food.fat}g F
+            </div>
+          </div>
+
+          <button class="danger"
+            onclick="deleteFood(${food.id})">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+      `).join("");
+  }
+
+
+  const workoutList =
+    document.getElementById("workoutList");
+
+  if(day.workouts.length===0){
+
+    workoutList.innerHTML =
+      '<div class="empty">No workout logged yet.</div>';
+
+  }else{
+
+    workoutList.innerHTML =
+      day.workouts.map(item=>`
+
+      <div class="workoutItem">
+
+        <div class="row">
+
+          <div>
+            <strong>${escapeHTML(item.name)}</strong>
+            <div class="muted">
+              ${item.sets} sets ×
+              ${item.reps} reps @
+              ${item.weight} lb
+            </div>
+          </div>
+
+          <button class="danger"
+            onclick="deleteWorkout(${item.id})">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+      `).join("");
+  }
+
+
+  const history =
+    document.getElementById("weightHistory");
+
+  if(data.weightHistory.length===0){
+
+    history.innerHTML =
+      '<div class="empty">Log your first weigh-in to start tracking progress.</div>';
+
+  }else{
+
+    history.innerHTML =
+      [...data.weightHistory]
+      .reverse()
+      .map(item=>`
+
+        <div class="historyItem row">
+          <span>${item.date}</span>
+          <strong>${item.weight} lb</strong>
+        </div>
+
+      `).join("");
+  }
+
+  save();
+}
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
 render();
 
