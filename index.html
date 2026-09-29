@@ -9,13 +9,13 @@
 <style>
 *{box-sizing:border-box}
 :root{
-  --bg:#080b0a;--card:#121715;--card2:#181e1b;
-  --green:#8cff38;--text:#fff;--muted:#9ca7a0;
-  --border:#29312d;--red:#ff6969;
+ --bg:#080b0a;--card:#121715;--card2:#181e1b;
+ --green:#8cff38;--text:#fff;--muted:#9ca7a0;
+ --border:#29312d;--red:#ff6969;
 }
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 .app{max-width:520px;margin:auto;padding:24px 18px 110px}
 .logo{color:var(--green);font-size:14px;font-weight:900;letter-spacing:3px}
@@ -23,8 +23,8 @@ h1{font-size:31px;margin:8px 0 3px}
 .subtitle{color:var(--muted);margin-bottom:20px}
 .page{display:none}.page.active{display:block}
 .card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:20px;padding:18px;margin-bottom:14px
+ background:var(--card);border:1px solid var(--border);
+ border-radius:20px;padding:18px;margin-bottom:14px
 }
 .card h2{margin:0 0 14px;font-size:18px}
 .big{font-size:30px;font-weight:900}
@@ -32,51 +32,139 @@ h1{font-size:31px;margin:8px 0 3px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .stat{background:var(--card2);padding:13px;border-radius:14px}
+
 .progress{
-  height:9px;background:#252c28;border-radius:20px;
-  overflow:hidden;margin-top:12px
+ height:9px;background:#252c28;border-radius:20px;
+ overflow:hidden;margin-top:12px
 }
 .progress div{height:100%;background:var(--green);border-radius:20px}
+
 input{
-  width:100%;background:#0c100e;border:1px solid var(--border);
-  color:white;border-radius:12px;padding:14px;margin:5px 0;font-size:16px
+ width:100%;background:#0c100e;border:1px solid var(--border);
+ color:white;border-radius:12px;padding:14px;margin:5px 0;font-size:16px
 }
+
 button{
-  width:100%;border:0;background:var(--green);color:#081005;
-  padding:13px;border-radius:12px;font-size:15px;font-weight:900;
-  cursor:pointer;margin-top:8px
+ width:100%;border:0;background:var(--green);color:#081005;
+ padding:13px;border-radius:12px;font-size:15px;font-weight:900;
+ cursor:pointer;margin-top:8px
 }
 button:disabled{opacity:.55}
+.secondary{background:#242b27;color:white}
 .danger{background:#351c1c;color:#ff8585}
+
 .foodItem,.workoutItem,.historyItem,.result{
-  background:var(--card2);border-radius:14px;padding:13px;margin-top:9px
+ background:var(--card2);border-radius:14px;padding:13px;margin-top:9px
 }
-.foodItem button,.workoutItem button{width:auto;padding:7px 10px;margin:0}
+
+.foodItem button,.workoutItem button{
+ width:auto;padding:7px 10px;margin:0
+}
+
 .macroRow{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:8px;margin-top:12px
 }
-.macro{text-align:center;background:var(--card2);padding:12px 5px;border-radius:12px}
+.macro{
+ text-align:center;background:var(--card2);
+ padding:12px 5px;border-radius:12px
+}
 .macro strong{display:block;font-size:18px}
+
 .empty{color:var(--muted);text-align:center;padding:18px 5px}
 .date{color:var(--muted);font-size:13px;margin-bottom:15px}
 .resultName{font-weight:800;margin-bottom:3px}
 .resultBrand{color:var(--muted);font-size:13px;margin-bottom:8px}
 .resultMacros{font-size:14px;line-height:1.6}
+
 .quantityRow{
-  display:grid;grid-template-columns:1fr 95px;gap:8px;margin-top:10px
+ display:grid;grid-template-columns:1fr 95px;
+ gap:8px;margin-top:10px
 }
+
+/* FOOD MODE BUTTONS */
+
+.foodModes{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:8px;margin-bottom:14px
+}
+
+.foodModes button{
+ background:#1a211d;color:#aeb8b2;
+ border:1px solid var(--border);margin:0
+}
+
+.foodModes button.active{
+ background:var(--green);color:#081005;
+ border-color:var(--green)
+}
+
+/* BARCODE */
+
+#scannerWrap{
+ display:none;
+ margin-top:12px;
+ overflow:hidden;
+ border-radius:16px;
+ position:relative;
+ background:black;
+}
+
+#scannerVideo{
+ width:100%;
+ display:block;
+ min-height:250px;
+ object-fit:cover;
+}
+
+.scanLine{
+ position:absolute;
+ left:10%;right:10%;top:50%;
+ height:2px;background:var(--green);
+ box-shadow:0 0 12px var(--green)
+}
+
+.productCard{
+ background:var(--card2);
+ border:1px solid var(--border);
+ border-radius:18px;
+ overflow:hidden;
+ margin-top:14px;
+}
+
+.productImage{
+ width:100%;
+ max-height:280px;
+ object-fit:contain;
+ background:white;
+ display:block;
+}
+
+.productInfo{padding:15px}
+
+.badge{
+ display:inline-block;
+ background:#273126;
+ color:var(--green);
+ border-radius:20px;
+ padding:5px 9px;
+ font-size:11px;
+ font-weight:800;
+ margin-bottom:8px
+}
+
 .nav{
-  position:fixed;bottom:0;left:0;right:0;background:#0d110f;
-  border-top:1px solid var(--border);
-  padding-bottom:env(safe-area-inset-bottom)
+ position:fixed;bottom:0;left:0;right:0;
+ background:#0d110f;border-top:1px solid var(--border);
+ padding-bottom:env(safe-area-inset-bottom)
 }
 .navInner{
-  max-width:520px;margin:auto;display:grid;
-  grid-template-columns:repeat(4,1fr)
+ max-width:520px;margin:auto;
+ display:grid;grid-template-columns:repeat(4,1fr)
 }
 .nav button{
-  background:none;color:#7f8983;margin:0;padding:14px 3px;
-  border-radius:0;font-size:12px
+ background:none;color:#7f8983;margin:0;
+ padding:14px 3px;border-radius:0;font-size:12px
 }
 .nav button.active{color:var(--green)}
 .navIcon{display:block;font-size:20px;margin-bottom:3px}
@@ -86,442 +174,1710 @@ button:disabled{opacity:.55}
 <body>
 
 <div class="app">
+
 <div class="logo">LEAN MACHINE</div>
 
+<!-- HOME -->
+
 <section id="home" class="page active">
-  <h1>Today's Mission</h1>
-  <div class="subtitle">Get lean. Stay strong.</div>
-  <div class="date todayDate"></div>
 
-  <div class="card">
-    <div class="row">
-      <div>
-        <div class="muted">Current Weight</div>
-        <div class="big"><span id="currentWeight">220</span> lb</div>
-      </div>
-      <div style="text-align:right">
-        <div class="muted">Goal</div>
-        <div class="big green">200</div>
-      </div>
-    </div>
-    <div class="progress"><div id="weightProgress"></div></div>
-    <input id="weightInput" type="number" step=".1" placeholder="Today's weight (lb)">
-    <button onclick="logWeight()">Log Today's Weight</button>
-  </div>
+<h1>Today's Mission</h1>
+<div class="subtitle">Get lean. Stay strong.</div>
+<div class="date todayDate"></div>
 
-  <div class="card">
-    <h2>Calories</h2>
-    <div class="row">
-      <div class="big"><span id="homeCalories">0</span></div>
-      <div class="muted">/ 2400 kcal</div>
-    </div>
-    <div class="progress"><div id="calorieProgress"></div></div>
+<div class="card">
 
-    <div class="macroRow">
-      <div class="macro"><strong id="homeProtein">0g</strong><span class="muted">Protein</span></div>
-      <div class="macro"><strong id="homeCarbs">0g</strong><span class="muted">Carbs</span></div>
-      <div class="macro"><strong id="homeFat">0g</strong><span class="muted">Fat</span></div>
-    </div>
-  </div>
+<div class="row">
+<div>
+<div class="muted">Current Weight</div>
+<div class="big"><span id="currentWeight">220</span> lb</div>
+</div>
 
-  <div class="grid">
-    <div class="card">
-      <div class="muted">Steps</div>
-      <div class="big" id="stepDisplay">0</div>
-      <small class="muted">Goal 10,000</small>
-      <input id="stepsInput" type="number" placeholder="Steps">
-      <button onclick="updateSteps()">Update</button>
-    </div>
+<div style="text-align:right">
+<div class="muted">Goal</div>
+<div class="big green">200</div>
+</div>
+</div>
 
-    <div class="card">
-      <div class="muted">Creatine</div>
-      <div class="big"><span id="creatineDisplay">0</span>g</div>
-      <small class="muted">Goal 5g</small>
-      <button id="creatineBtn" onclick="takeCreatine()">Mark 5g Taken</button>
-    </div>
-  </div>
+<div class="progress"><div id="weightProgress"></div></div>
+
+<input id="weightInput" type="number" step=".1"
+placeholder="Today's weight (lb)">
+
+<button onclick="logWeight()">Log Today's Weight</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>Calories</h2>
+
+<div class="row">
+<div class="big"><span id="homeCalories">0</span></div>
+<div class="muted">/ 2400 kcal</div>
+</div>
+
+<div class="progress"><div id="calorieProgress"></div></div>
+
+<div class="macroRow">
+
+<div class="macro">
+<strong id="homeProtein">0g</strong>
+<span class="muted">Protein</span>
+</div>
+
+<div class="macro">
+<strong id="homeCarbs">0g</strong>
+<span class="muted">Carbs</span>
+</div>
+
+<div class="macro">
+<strong id="homeFat">0g</strong>
+<span class="muted">Fat</span>
+</div>
+
+</div>
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+<div class="muted">Steps</div>
+<div class="big" id="stepDisplay">0</div>
+<small class="muted">Goal 10,000</small>
+
+<input id="stepsInput" type="number" placeholder="Steps">
+
+<button onclick="updateSteps()">Update</button>
+</div>
+
+
+<div class="card">
+<div class="muted">Creatine</div>
+<div class="big"><span id="creatineDisplay">0</span>g</div>
+<small class="muted">Goal 5g</small>
+
+<button id="creatineBtn" onclick="takeCreatine()">
+Mark 5g Taken
+</button>
+
+</div>
+</div>
+
 </section>
+
+
+<!-- FOOD -->
 
 <section id="food" class="page">
-  <h1>Food</h1>
-  <div class="subtitle">Search USDA nutrition data.</div>
-  <div class="date todayDate"></div>
 
-  <div class="card">
-    <h2>Today's Nutrition</h2>
-    <div class="row">
-      <div class="big"><span id="foodCalories">0</span></div>
-      <div class="muted">/ 2400 kcal</div>
-    </div>
-    <div class="progress"><div id="foodCalorieProgress"></div></div>
+<h1>Food</h1>
+<div class="subtitle">Search it or scan it.</div>
+<div class="date todayDate"></div>
 
-    <div class="macroRow">
-      <div class="macro"><strong id="foodProtein">0g</strong><span class="muted">Protein</span></div>
-      <div class="macro"><strong id="foodCarbs">0g</strong><span class="muted">Carbs</span></div>
-      <div class="macro"><strong id="foodFat">0g</strong><span class="muted">Fat</span></div>
-    </div>
-  </div>
 
-  <div class="card">
-    <h2>What did you eat?</h2>
-    <input id="foodSearch" placeholder="e.g. chicken breast, banana, Greek yogurt">
-    <button id="searchBtn" onclick="searchFood()">🔎 Search Food</button>
-    <div id="searchMessage" class="muted" style="margin-top:10px"></div>
-    <div id="searchResults"></div>
-  </div>
+<div class="card">
 
-  <div class="card">
-    <h2>Today's Food</h2>
-    <div id="foodList"></div>
-  </div>
+<h2>Today's Nutrition</h2>
+
+<div class="row">
+<div class="big"><span id="foodCalories">0</span></div>
+<div class="muted">/ 2400 kcal</div>
+</div>
+
+<div class="progress">
+<div id="foodCalorieProgress"></div>
+</div>
+
+<div class="macroRow">
+
+<div class="macro">
+<strong id="foodProtein">0g</strong>
+<span class="muted">Protein</span>
+</div>
+
+<div class="macro">
+<strong id="foodCarbs">0g</strong>
+<span class="muted">Carbs</span>
+</div>
+
+<div class="macro">
+<strong id="foodFat">0g</strong>
+<span class="muted">Fat</span>
+</div>
+
+</div>
+</div>
+
+
+<div class="card">
+
+<div class="foodModes">
+
+<button id="searchModeBtn"
+class="active"
+onclick="foodMode('search')">
+🔎 Search
+</button>
+
+<button id="barcodeModeBtn"
+onclick="foodMode('barcode')">
+📷 Barcode
+</button>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div id="searchMode">
+
+<h2>What did you eat?</h2>
+
+<input id="foodSearch"
+placeholder="Chicken breast, banana, Greek yogurt...">
+
+<button id="searchBtn" onclick="searchFood()">
+🔎 Search Food
+</button>
+
+<div id="searchMessage"
+class="muted"
+style="margin-top:10px"></div>
+
+<div id="searchResults"></div>
+
+</div>
+
+
+<!-- BARCODE -->
+
+<div id="barcodeMode" style="display:none">
+
+<h2>Scan a Product</h2>
+
+<div class="muted">
+Scan the UPC/EAN on the package.
+</div>
+
+<button onclick="startScanner()">
+📷 Open Camera Scanner
+</button>
+
+<div id="scannerWrap">
+
+<video
+id="scannerVideo"
+playsinline
+muted>
+</video>
+
+<div class="scanLine"></div>
+
+</div>
+
+<button
+id="stopScannerBtn"
+class="secondary"
+style="display:none"
+onclick="stopScanner()">
+Close Camera
+</button>
+
+<div style="margin:18px 0 8px"
+class="muted">
+Or enter the barcode manually:
+</div>
+
+<input
+id="barcodeInput"
+inputmode="numeric"
+placeholder="Barcode number">
+
+<button
+class="secondary"
+onclick="lookupManualBarcode()">
+Look Up Barcode
+</button>
+
+<div id="barcodeMessage"
+class="muted"
+style="margin-top:10px"></div>
+
+<div id="barcodeResult"></div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>Today's Food</h2>
+<div id="foodList"></div>
+</div>
+
 </section>
+
+
+<!-- TRAINING -->
 
 <section id="training" class="page">
-  <h1>Training</h1>
-  <div class="subtitle">Build strength. Keep muscle.</div>
-  <div class="date todayDate"></div>
 
-  <div class="card">
-    <h2>Log Exercise</h2>
-    <input id="exerciseName" placeholder="Exercise e.g. Bench Press">
-    <input id="exerciseWeight" type="number" step=".5" placeholder="Weight (lb)">
-    <input id="exerciseSets" type="number" placeholder="Sets">
-    <input id="exerciseReps" type="number" placeholder="Reps">
-    <button onclick="addWorkout()">Add Exercise</button>
-  </div>
+<h1>Training</h1>
+<div class="subtitle">Build strength. Keep muscle.</div>
+<div class="date todayDate"></div>
 
-  <div class="card">
-    <h2>Today's Workout</h2>
-    <div id="workoutList"></div>
-  </div>
+<div class="card">
+
+<h2>Log Exercise</h2>
+
+<input id="exerciseName"
+placeholder="Exercise e.g. Bench Press">
+
+<input id="exerciseWeight"
+type="number"
+step=".5"
+placeholder="Weight (lb)">
+
+<input id="exerciseSets"
+type="number"
+placeholder="Sets">
+
+<input id="exerciseReps"
+type="number"
+placeholder="Reps">
+
+<button onclick="addWorkout()">
+Add Exercise
+</button>
+
+</div>
+
+<div class="card">
+<h2>Today's Workout</h2>
+<div id="workoutList"></div>
+</div>
+
 </section>
+
+
+<!-- PROGRESS -->
 
 <section id="progressPage" class="page">
-  <h1>Progress</h1>
-  <div class="subtitle">Results over time.</div>
 
-  <div class="card">
-    <h2>Weight Goal</h2>
-    <div class="row">
-      <div><div class="muted">Starting</div><div class="big">220</div></div>
-      <div style="text-align:center"><div class="muted">Current</div><div class="big green" id="progressCurrentWeight">220</div></div>
-      <div style="text-align:right"><div class="muted">Goal</div><div class="big">200</div></div>
-    </div>
-    <div class="progress"><div id="progressWeightBar"></div></div>
-  </div>
+<h1>Progress</h1>
+<div class="subtitle">Results over time.</div>
 
-  <div class="card">
-    <h2>Weight History</h2>
-    <div id="weightHistory"></div>
-  </div>
+<div class="card">
+
+<h2>Weight Goal</h2>
+
+<div class="row">
+
+<div>
+<div class="muted">Starting</div>
+<div class="big">220</div>
+</div>
+
+<div style="text-align:center">
+<div class="muted">Current</div>
+<div class="big green"
+id="progressCurrentWeight">220</div>
+</div>
+
+<div style="text-align:right">
+<div class="muted">Goal</div>
+<div class="big">200</div>
+</div>
+
+</div>
+
+<div class="progress">
+<div id="progressWeightBar"></div>
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>Weight History</h2>
+<div id="weightHistory"></div>
+</div>
+
 </section>
 
 </div>
 
+
+<!-- NAVIGATION -->
+
 <div class="nav">
+
 <div class="navInner">
-  <button class="navBtn active" onclick="showPage('home',this)"><span class="navIcon">⌂</span>Home</button>
-  <button class="navBtn" onclick="showPage('food',this)"><span class="navIcon">＋</span>Food</button>
-  <button class="navBtn" onclick="showPage('training',this)"><span class="navIcon">◆</span>Training</button>
-  <button class="navBtn" onclick="showPage('progressPage',this)"><span class="navIcon">↗</span>Progress</button>
+
+<button class="navBtn active"
+onclick="showPage('home',this)">
+<span class="navIcon">⌂</span>
+Home
+</button>
+
+<button class="navBtn"
+onclick="showPage('food',this)">
+<span class="navIcon">＋</span>
+Food
+</button>
+
+<button class="navBtn"
+onclick="showPage('training',this)">
+<span class="navIcon">◆</span>
+Training
+</button>
+
+<button class="navBtn"
+onclick="showPage('progressPage',this)">
+<span class="navIcon">↗</span>
+Progress
+</button>
+
 </div>
 </div>
+
 
 <script>
-const API = "https://lm-core.lilotbiz.workers.dev";
-const CALORIE_GOAL = 2400;
-const START_WEIGHT = 220;
-const GOAL_WEIGHT = 200;
+
+const API="https://lm-core.lilotbiz.workers.dev";
+
+const CALORIE_GOAL=2400;
+const START_WEIGHT=220;
+const GOAL_WEIGHT=200;
+
+let scannerStream=null;
+let scanning=false;
+
+
+/* DATA */
 
 function dateKey(){
-  const d=new Date();
-  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+
+ const d=new Date();
+
+ return d.getFullYear()+"-"+
+ String(d.getMonth()+1).padStart(2,"0")+"-"+
+ String(d.getDate()).padStart(2,"0");
+
 }
 
 function defaultData(){
-  return {currentWeight:START_WEIGHT,weightHistory:[],days:{}};
+
+ return{
+  currentWeight:START_WEIGHT,
+  weightHistory:[],
+  days:{}
+ };
+
 }
 
 let data;
+
 try{
-  data=JSON.parse(localStorage.getItem("leanMachineV3"))||defaultData();
+
+ data=
+ JSON.parse(localStorage.getItem("leanMachineV4"))
+ ||defaultData();
+
 }catch{
-  data=defaultData();
+
+ data=defaultData();
+
 }
+
 
 function todayData(){
-  const key=dateKey();
-  if(!data.days[key]){
-    data.days[key]={foods:[],workouts:[],steps:0,creatine:false};
-  }
-  return data.days[key];
+
+ const key=dateKey();
+
+ if(!data.days[key]){
+
+  data.days[key]={
+   foods:[],
+   workouts:[],
+   steps:0,
+   creatine:false
+  };
+
+ }
+
+ return data.days[key];
+
 }
+
 
 function save(){
-  localStorage.setItem("leanMachineV3",JSON.stringify(data));
+
+ localStorage.setItem(
+  "leanMachineV4",
+  JSON.stringify(data)
+ );
+
 }
+
+
+/* NAVIGATION */
 
 function showPage(id,btn){
-  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.querySelectorAll(".navBtn").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");
-  window.scrollTo(0,0);
-  render();
+
+ if(id!=="food"){
+  stopScanner();
+ }
+
+ document.querySelectorAll(".page")
+ .forEach(x=>x.classList.remove("active"));
+
+ document.getElementById(id)
+ .classList.add("active");
+
+ document.querySelectorAll(".navBtn")
+ .forEach(x=>x.classList.remove("active"));
+
+ btn.classList.add("active");
+
+ window.scrollTo(0,0);
+
+ render();
+
 }
+
+
+/* FOOD MODES */
+
+function foodMode(mode){
+
+ stopScanner();
+
+ const search=
+ document.getElementById("searchMode");
+
+ const barcode=
+ document.getElementById("barcodeMode");
+
+ const searchBtn=
+ document.getElementById("searchModeBtn");
+
+ const barcodeBtn=
+ document.getElementById("barcodeModeBtn");
+
+ if(mode==="search"){
+
+  search.style.display="block";
+  barcode.style.display="none";
+
+  searchBtn.classList.add("active");
+  barcodeBtn.classList.remove("active");
+
+ }else{
+
+  search.style.display="none";
+  barcode.style.display="block";
+
+  barcodeBtn.classList.add("active");
+  searchBtn.classList.remove("active");
+
+ }
+
+}
+
+
+/* TOTALS */
 
 function totals(){
-  return todayData().foods.reduce((t,f)=>{
-    t.calories+=Number(f.calories)||0;
-    t.protein+=Number(f.protein)||0;
-    t.carbs+=Number(f.carbs)||0;
-    t.fat+=Number(f.fat)||0;
-    return t;
-  },{calories:0,protein:0,carbs:0,fat:0});
+
+ return todayData().foods.reduce((t,f)=>{
+
+  t.calories+=Number(f.calories)||0;
+  t.protein+=Number(f.protein)||0;
+  t.carbs+=Number(f.carbs)||0;
+  t.fat+=Number(f.fat)||0;
+
+  return t;
+
+ },{
+  calories:0,
+  protein:0,
+  carbs:0,
+  fat:0
+ });
+
 }
+
+
+/* USDA SEARCH */
 
 async function searchFood(){
-  const q=document.getElementById("foodSearch").value.trim();
-  const message=document.getElementById("searchMessage");
-  const results=document.getElementById("searchResults");
-  const btn=document.getElementById("searchBtn");
 
-  if(!q){
-    message.textContent="Type a food first.";
-    return;
-  }
+ const q=
+ document.getElementById("foodSearch")
+ .value.trim();
 
-  btn.disabled=true;
-  btn.textContent="Searching...";
-  message.textContent="Searching USDA...";
-  results.innerHTML="";
+ const message=
+ document.getElementById("searchMessage");
 
-  try{
-    const response=await fetch(API+"/search?q="+encodeURIComponent(q));
-    if(!response.ok) throw new Error("Search failed");
+ const results=
+ document.getElementById("searchResults");
 
-    const json=await response.json();
-    const foods=(json.foods||[]).filter(f=>
-      (Number(f.calories)>0 || Number(f.protein)>0) &&
-      Number(f.servingSize)>0
-    );
+ const btn=
+ document.getElementById("searchBtn");
 
-    if(!foods.length){
-      message.textContent="No usable matches found. Try a more specific search.";
-      return;
-    }
 
-    message.textContent="Choose the closest match. Nutrition below is for the listed USDA serving.";
+ if(!q){
 
-    results.innerHTML=foods.slice(0,10).map((f,i)=>`
-      <div class="result">
-        <div class="resultName">${escapeHTML(f.name)}</div>
-        <div class="resultBrand">${escapeHTML(f.brand||"USDA generic food")}</div>
+  message.textContent=
+  "Type a food first.";
 
-        <div class="resultMacros">
-          USDA serving: <strong>${f.servingSize} ${escapeHTML(f.servingUnit||"g")}</strong><br>
-          ${f.calories} kcal · ${f.protein}g protein · ${f.carbs}g carbs · ${f.fat}g fat
-        </div>
+  return;
 
-        <div class="quantityRow">
-          <input id="grams-${i}" type="number" step="1"
-            value="${f.servingSize}"
-            placeholder="Amount">
-          <input value="${escapeHTML(f.servingUnit||"g")}" disabled>
-        </div>
+ }
 
-        <button onclick='addSearchFood(${JSON.stringify(f)},${i})'>
-          Add to Today
-        </button>
-      </div>
-    `).join("");
 
-  }catch(err){
-    message.textContent="Could not search foods. Please try again.";
-  }finally{
-    btn.disabled=false;
-    btn.textContent="🔎 Search Food";
-  }
-}
+ btn.disabled=true;
+ btn.textContent="Searching...";
 
-function addSearchFood(food,index){
-  const entered=Number(document.getElementById("grams-"+index).value);
-  const base=Number(food.servingSize);
+ message.textContent=
+ "Searching USDA...";
 
-  if(!entered || !base){
-    alert("Enter an amount.");
-    return;
-  }
+ results.innerHTML="";
 
-  const multiplier=entered/base;
 
-  todayData().foods.push({
-    id:Date.now(),
-    name:food.name,
-    brand:food.brand||"",
-    amount:entered,
-    unit:food.servingUnit||"g",
-    calories:Math.round(food.calories*multiplier),
-    protein:round1(food.protein*multiplier),
-    carbs:round1(food.carbs*multiplier),
-    fat:round1(food.fat*multiplier)
-  });
+ try{
 
-  save();
-  render();
-
-  document.getElementById("searchMessage").textContent="✓ Added to today's food.";
-}
-
-function deleteFood(id){
-  todayData().foods=todayData().foods.filter(f=>f.id!==id);
-  save();render();
-}
-
-function logWeight(){
-  const w=Number(document.getElementById("weightInput").value);
-  if(!w)return alert("Enter your weight.");
-
-  data.currentWeight=w;
-  const old=data.weightHistory.find(x=>x.date===dateKey());
-
-  if(old)old.weight=w;
-  else data.weightHistory.push({date:dateKey(),weight:w});
-
-  document.getElementById("weightInput").value="";
-  save();render();
-}
-
-function updateSteps(){
-  todayData().steps=Number(document.getElementById("stepsInput").value)||0;
-  document.getElementById("stepsInput").value="";
-  save();render();
-}
-
-function takeCreatine(){
-  todayData().creatine=!todayData().creatine;
-  save();render();
-}
-
-function addWorkout(){
-  const name=document.getElementById("exerciseName").value.trim();
-  if(!name)return alert("Enter an exercise.");
-
-  todayData().workouts.push({
-    id:Date.now(),
-    name,
-    weight:Number(document.getElementById("exerciseWeight").value)||0,
-    sets:Number(document.getElementById("exerciseSets").value)||0,
-    reps:Number(document.getElementById("exerciseReps").value)||0
-  });
-
-  ["exerciseName","exerciseWeight","exerciseSets","exerciseReps"]
-    .forEach(id=>document.getElementById(id).value="");
-
-  save();render();
-}
-
-function deleteWorkout(id){
-  todayData().workouts=todayData().workouts.filter(x=>x.id!==id);
-  save();render();
-}
-
-function render(){
-  const day=todayData();
-  const t=totals();
-
-  document.querySelectorAll(".todayDate").forEach(el=>{
-    el.textContent=new Date().toLocaleDateString(undefined,{
-      weekday:"long",month:"long",day:"numeric"
-    });
-  });
-
-  document.getElementById("currentWeight").textContent=data.currentWeight;
-  document.getElementById("progressCurrentWeight").textContent=data.currentWeight;
-
-  const wp=Math.max(0,Math.min(100,
-    ((START_WEIGHT-data.currentWeight)/(START_WEIGHT-GOAL_WEIGHT))*100
-  ));
-
-  document.getElementById("weightProgress").style.width=wp+"%";
-  document.getElementById("progressWeightBar").style.width=wp+"%";
-
-  ["homeCalories","foodCalories"].forEach(id=>
-    document.getElementById(id).textContent=Math.round(t.calories)
+  const response=
+  await fetch(
+   API+"/search?q="+
+   encodeURIComponent(q)
   );
 
-  const cp=Math.min(100,(t.calories/CALORIE_GOAL)*100);
-  document.getElementById("calorieProgress").style.width=cp+"%";
-  document.getElementById("foodCalorieProgress").style.width=cp+"%";
+  if(!response.ok)
+   throw new Error("Search failed");
 
-  ["homeProtein","foodProtein"].forEach(id=>document.getElementById(id).textContent=round1(t.protein)+"g");
-  ["homeCarbs","foodCarbs"].forEach(id=>document.getElementById(id).textContent=round1(t.carbs)+"g");
-  ["homeFat","foodFat"].forEach(id=>document.getElementById(id).textContent=round1(t.fat)+"g");
 
-  document.getElementById("stepDisplay").textContent=day.steps.toLocaleString();
-  document.getElementById("creatineDisplay").textContent=day.creatine?5:0;
-  document.getElementById("creatineBtn").textContent=day.creatine?"✓ 5g Taken":"Mark 5g Taken";
+  const json=
+  await response.json();
 
-  document.getElementById("foodList").innerHTML=day.foods.length
-    ?day.foods.map(f=>`
-      <div class="foodItem">
-        <div class="row">
-          <div>
-            <strong>${escapeHTML(f.name)}</strong>
-            <div class="muted">
-              ${f.amount||""} ${escapeHTML(f.unit||"")} ·
-              ${Math.round(f.calories)} kcal ·
-              ${round1(f.protein)}g P ·
-              ${round1(f.carbs)}g C ·
-              ${round1(f.fat)}g F
-            </div>
-          </div>
-          <button class="danger" onclick="deleteFood(${f.id})">Delete</button>
-        </div>
-      </div>`).join("")
-    :'<div class="empty">No food logged yet.</div>';
 
-  document.getElementById("workoutList").innerHTML=day.workouts.length
-    ?day.workouts.map(x=>`
-      <div class="workoutItem">
-        <div class="row">
-          <div>
-            <strong>${escapeHTML(x.name)}</strong>
-            <div class="muted">${x.sets} sets × ${x.reps} reps @ ${x.weight} lb</div>
-          </div>
-          <button class="danger" onclick="deleteWorkout(${x.id})">Delete</button>
-        </div>
-      </div>`).join("")
-    :'<div class="empty">No workout logged yet.</div>';
+  const foods=
+  (json.foods||[])
+  .filter(f=>
+   (Number(f.calories)>0||
+    Number(f.protein)>0)
+   &&
+   Number(f.servingSize)>0
+  );
 
-  document.getElementById("weightHistory").innerHTML=data.weightHistory.length
-    ?[...data.weightHistory].reverse().map(x=>`
-      <div class="historyItem row">
-        <span>${x.date}</span><strong>${x.weight} lb</strong>
-      </div>`).join("")
-    :'<div class="empty">Log your first weigh-in to start tracking progress.</div>';
 
-  save();
+  if(!foods.length){
+
+   message.textContent=
+   "No usable matches found.";
+
+   return;
+
+  }
+
+
+  message.textContent=
+  "Choose the closest match.";
+
+
+  results.innerHTML=
+  foods.slice(0,10)
+  .map((f,i)=>`
+
+   <div class="result">
+
+    <div class="resultName">
+     ${escapeHTML(f.name)}
+    </div>
+
+    <div class="resultBrand">
+     ${escapeHTML(
+      f.brand||"USDA generic food"
+     )}
+    </div>
+
+    <div class="resultMacros">
+
+     Serving:
+     <strong>
+     ${f.servingSize}
+     ${escapeHTML(f.servingUnit||"g")}
+     </strong>
+
+     <br>
+
+     ${f.calories} kcal ·
+     ${f.protein}g protein ·
+     ${f.carbs}g carbs ·
+     ${f.fat}g fat
+
+    </div>
+
+
+    <div class="quantityRow">
+
+     <input
+     id="grams-${i}"
+     type="number"
+     value="${f.servingSize}">
+
+     <input
+     value="${escapeHTML(
+      f.servingUnit||"g"
+     )}"
+     disabled>
+
+    </div>
+
+
+    <button
+    onclick='addSearchFood(
+     ${JSON.stringify(f)},${i}
+    )'>
+
+    Add to Today
+
+    </button>
+
+   </div>
+
+  `).join("");
+
+
+ }catch{
+
+  message.textContent=
+  "Could not search foods.";
+
+ }finally{
+
+  btn.disabled=false;
+  btn.textContent="🔎 Search Food";
+
+ }
+
 }
+
+
+/* ADD USDA FOOD */
+
+function addSearchFood(food,index){
+
+ const entered=
+ Number(
+  document.getElementById(
+   "grams-"+index
+  ).value
+ );
+
+ const base=
+ Number(food.servingSize);
+
+
+ if(!entered||!base){
+
+  alert("Enter an amount.");
+  return;
+
+ }
+
+
+ const multiplier=
+ entered/base;
+
+
+ todayData().foods.push({
+
+  id:Date.now(),
+
+  name:food.name,
+
+  brand:food.brand||"",
+
+  amount:entered,
+
+  unit:food.servingUnit||"g",
+
+  calories:
+  Math.round(
+   food.calories*multiplier
+  ),
+
+  protein:
+  round1(
+   food.protein*multiplier
+  ),
+
+  carbs:
+  round1(
+   food.carbs*multiplier
+  ),
+
+  fat:
+  round1(
+   food.fat*multiplier
+  )
+
+ });
+
+
+ save();
+ render();
+
+ document.getElementById(
+  "searchMessage"
+ ).textContent=
+ "✓ Added to today's food.";
+
+}
+
+
+/* BARCODE CAMERA */
+
+async function startScanner(){
+
+ const message=
+ document.getElementById(
+  "barcodeMessage"
+ );
+
+ const wrap=
+ document.getElementById(
+  "scannerWrap"
+ );
+
+ const video=
+ document.getElementById(
+  "scannerVideo"
+ );
+
+
+ if(!("BarcodeDetector" in window)){
+
+  message.textContent=
+  "Automatic barcode scanning isn't supported by this browser. Enter the barcode manually below.";
+
+  return;
+
+ }
+
+
+ try{
+
+  const supported=
+  await BarcodeDetector
+  .getSupportedFormats();
+
+
+  const desired=[
+   "ean_13",
+   "ean_8",
+   "upc_a",
+   "upc_e"
+  ].filter(x=>
+   supported.includes(x)
+  );
+
+
+  const detector=
+  new BarcodeDetector({
+   formats:desired.length
+   ?desired
+   :undefined
+  });
+
+
+  scannerStream=
+  await navigator.mediaDevices
+  .getUserMedia({
+
+   video:{
+    facingMode:{
+     ideal:"environment"
+    }
+   },
+
+   audio:false
+
+  });
+
+
+  video.srcObject=
+  scannerStream;
+
+  await video.play();
+
+  wrap.style.display="block";
+
+  document.getElementById(
+   "stopScannerBtn"
+  ).style.display="block";
+
+  message.textContent=
+  "Point the camera at the barcode.";
+
+  scanning=true;
+
+
+  async function scan(){
+
+   if(!scanning)return;
+
+
+   try{
+
+    const codes=
+    await detector.detect(video);
+
+
+    if(codes.length){
+
+     const code=
+     codes[0].rawValue;
+
+
+     stopScanner();
+
+
+     document.getElementById(
+      "barcodeInput"
+     ).value=code;
+
+
+     lookupBarcode(code);
+
+     return;
+
+    }
+
+   }catch{}
+
+
+   if(scanning){
+
+    requestAnimationFrame(scan);
+
+   }
+
+  }
+
+
+  requestAnimationFrame(scan);
+
+
+ }catch(error){
+
+  stopScanner();
+
+  message.textContent=
+  "Camera couldn't start. Check Safari camera permission or enter the barcode manually.";
+
+ }
+
+}
+
+
+/* STOP CAMERA */
+
+function stopScanner(){
+
+ scanning=false;
+
+
+ if(scannerStream){
+
+  scannerStream
+  .getTracks()
+  .forEach(track=>
+   track.stop()
+  );
+
+  scannerStream=null;
+
+ }
+
+
+ const wrap=
+ document.getElementById(
+  "scannerWrap"
+ );
+
+ const stop=
+ document.getElementById(
+  "stopScannerBtn"
+ );
+
+
+ if(wrap)
+  wrap.style.display="none";
+
+ if(stop)
+  stop.style.display="none";
+
+}
+
+
+/* MANUAL BARCODE */
+
+function lookupManualBarcode(){
+
+ const code=
+ document.getElementById(
+  "barcodeInput"
+ ).value.replace(/\D/g,"");
+
+
+ if(!code){
+
+  document.getElementById(
+   "barcodeMessage"
+  ).textContent=
+  "Enter a barcode.";
+
+  return;
+
+ }
+
+
+ lookupBarcode(code);
+
+}
+
+
+/* BARCODE LOOKUP */
+
+async function lookupBarcode(code){
+
+ const message=
+ document.getElementById(
+  "barcodeMessage"
+ );
+
+ const result=
+ document.getElementById(
+  "barcodeResult"
+ );
+
+
+ message.textContent=
+ "Looking up product...";
+
+ result.innerHTML="";
+
+
+ try{
+
+  const response=
+  await fetch(
+   API+
+   "/barcode?code="+
+   encodeURIComponent(code)
+  );
+
+
+  const json=
+  await response.json();
+
+
+  if(!response.ok||
+     !json.product){
+
+   throw new Error(
+    json.error||
+    "Product not found"
+   );
+
+  }
+
+
+  const p=json.product;
+
+
+  message.textContent=
+  "Confirm this is the product you're holding.";
+
+
+  const image=
+  p.image
+  ?`
+   <img
+   class="productImage"
+   src="${escapeHTML(p.image)}"
+   alt="Product photo"
+   onerror="this.style.display='none'">
+  `
+  :"";
+
+
+  result.innerHTML=`
+
+   <div class="productCard">
+
+    ${image}
+
+    <div class="productInfo">
+
+     <div class="badge">
+      BARCODE MATCH
+     </div>
+
+     <div class="resultName"
+     style="font-size:20px">
+
+      ${escapeHTML(p.name)}
+
+     </div>
+
+     <div class="resultBrand">
+
+      ${escapeHTML(p.brand)}
+
+     </div>
+
+
+     <div class="resultMacros">
+
+      Barcode:
+      ${escapeHTML(p.barcode)}
+
+      <br>
+
+      Serving:
+      ${escapeHTML(
+       p.serving||
+       "Not provided"
+      )}
+
+      <br><br>
+
+      <strong>
+      ${p.caloriesPerServing||0}
+      calories
+      </strong>
+
+      <br>
+
+      ${p.proteinPerServing||0}g protein ·
+      ${p.carbsPerServing||0}g carbs ·
+      ${p.fatPerServing||0}g fat
+
+     </div>
+
+
+     <button
+     onclick='addBarcodeFood(
+      ${JSON.stringify(p)}
+     )'>
+
+      Add 1 Serving
+
+     </button>
+
+    </div>
+
+   </div>
+
+  `;
+
+
+ }catch(error){
+
+  message.textContent=
+  error.message||
+  "Product not found.";
+
+ }
+
+}
+
+
+/* ADD BARCODE FOOD */
+
+function addBarcodeFood(p){
+
+ todayData().foods.push({
+
+  id:Date.now(),
+
+  name:p.name,
+
+  brand:p.brand||"",
+
+  amount:1,
+
+  unit:p.serving||
+  "serving",
+
+  calories:
+  Number(
+   p.caloriesPerServing
+  )||0,
+
+  protein:
+  Number(
+   p.proteinPerServing
+  )||0,
+
+  carbs:
+  Number(
+   p.carbsPerServing
+  )||0,
+
+  fat:
+  Number(
+   p.fatPerServing
+  )||0,
+
+  barcode:p.barcode,
+
+  image:p.image||""
+
+ });
+
+
+ save();
+ render();
+
+
+ document.getElementById(
+  "barcodeMessage"
+ ).textContent=
+ "✓ Added to today's food.";
+
+}
+
+
+/* DELETE FOOD */
+
+function deleteFood(id){
+
+ todayData().foods=
+ todayData().foods
+ .filter(f=>f.id!==id);
+
+ save();
+ render();
+
+}
+
+
+/* WEIGHT */
+
+function logWeight(){
+
+ const w=
+ Number(
+  document.getElementById(
+   "weightInput"
+  ).value
+ );
+
+
+ if(!w){
+
+  alert("Enter your weight.");
+  return;
+
+ }
+
+
+ data.currentWeight=w;
+
+
+ const old=
+ data.weightHistory
+ .find(x=>
+  x.date===dateKey()
+ );
+
+
+ if(old){
+
+  old.weight=w;
+
+ }else{
+
+  data.weightHistory.push({
+   date:dateKey(),
+   weight:w
+  });
+
+ }
+
+
+ document.getElementById(
+  "weightInput"
+ ).value="";
+
+
+ save();
+ render();
+
+}
+
+
+/* STEPS */
+
+function updateSteps(){
+
+ todayData().steps=
+ Number(
+  document.getElementById(
+   "stepsInput"
+  ).value
+ )||0;
+
+
+ document.getElementById(
+  "stepsInput"
+ ).value="";
+
+
+ save();
+ render();
+
+}
+
+
+/* CREATINE */
+
+function takeCreatine(){
+
+ todayData().creatine=
+ !todayData().creatine;
+
+ save();
+ render();
+
+}
+
+
+/* TRAINING */
+
+function addWorkout(){
+
+ const name=
+ document.getElementById(
+  "exerciseName"
+ ).value.trim();
+
+
+ if(!name){
+
+  alert("Enter an exercise.");
+  return;
+
+ }
+
+
+ todayData().workouts.push({
+
+  id:Date.now(),
+
+  name,
+
+  weight:
+  Number(
+   document.getElementById(
+    "exerciseWeight"
+   ).value
+  )||0,
+
+  sets:
+  Number(
+   document.getElementById(
+    "exerciseSets"
+   ).value
+  )||0,
+
+  reps:
+  Number(
+   document.getElementById(
+    "exerciseReps"
+   ).value
+  )||0
+
+ });
+
+
+ [
+  "exerciseName",
+  "exerciseWeight",
+  "exerciseSets",
+  "exerciseReps"
+ ]
+ .forEach(id=>
+  document.getElementById(id)
+  .value=""
+ );
+
+
+ save();
+ render();
+
+}
+
+
+function deleteWorkout(id){
+
+ todayData().workouts=
+ todayData().workouts
+ .filter(x=>x.id!==id);
+
+ save();
+ render();
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+ const day=todayData();
+ const t=totals();
+
+
+ document.querySelectorAll(
+  ".todayDate"
+ ).forEach(el=>{
+
+  el.textContent=
+  new Date()
+  .toLocaleDateString(
+   undefined,
+   {
+    weekday:"long",
+    month:"long",
+    day:"numeric"
+   }
+  );
+
+ });
+
+
+ document.getElementById(
+  "currentWeight"
+ ).textContent=
+ data.currentWeight;
+
+
+ document.getElementById(
+  "progressCurrentWeight"
+ ).textContent=
+ data.currentWeight;
+
+
+ const wp=
+ Math.max(
+  0,
+  Math.min(
+   100,
+   (
+    (START_WEIGHT-
+     data.currentWeight)
+    /
+    (START_WEIGHT-
+     GOAL_WEIGHT)
+   )*100
+  )
+ );
+
+
+ document.getElementById(
+  "weightProgress"
+ ).style.width=
+ wp+"%";
+
+
+ document.getElementById(
+  "progressWeightBar"
+ ).style.width=
+ wp+"%";
+
+
+ [
+  "homeCalories",
+  "foodCalories"
+ ].forEach(id=>
+
+  document.getElementById(id)
+  .textContent=
+  Math.round(t.calories)
+
+ );
+
+
+ const cp=
+ Math.min(
+  100,
+  (t.calories/CALORIE_GOAL)*100
+ );
+
+
+ document.getElementById(
+  "calorieProgress"
+ ).style.width=
+ cp+"%";
+
+
+ document.getElementById(
+  "foodCalorieProgress"
+ ).style.width=
+ cp+"%";
+
+
+ [
+  "homeProtein",
+  "foodProtein"
+ ].forEach(id=>
+
+  document.getElementById(id)
+  .textContent=
+  round1(t.protein)+"g"
+
+ );
+
+
+ [
+  "homeCarbs",
+  "foodCarbs"
+ ].forEach(id=>
+
+  document.getElementById(id)
+  .textContent=
+  round1(t.carbs)+"g"
+
+ );
+
+
+ [
+  "homeFat",
+  "foodFat"
+ ].forEach(id=>
+
+  document.getElementById(id)
+  .textContent=
+  round1(t.fat)+"g"
+
+ );
+
+
+ document.getElementById(
+  "stepDisplay"
+ ).textContent=
+ day.steps.toLocaleString();
+
+
+ document.getElementById(
+  "creatineDisplay"
+ ).textContent=
+ day.creatine?5:0;
+
+
+ document.getElementById(
+  "creatineBtn"
+ ).textContent=
+ day.creatine
+ ?"✓ 5g Taken"
+ :"Mark 5g Taken";
+
+
+ document.getElementById(
+  "foodList"
+ ).innerHTML=
+
+ day.foods.length
+
+ ?day.foods.map(f=>`
+
+  <div class="foodItem">
+
+   <div class="row">
+
+    <div>
+
+     <strong>
+      ${escapeHTML(f.name)}
+     </strong>
+
+     <div class="muted">
+
+      ${escapeHTML(
+       f.brand||""
+      )}
+
+      ${f.brand?" · ":""}
+
+      ${f.amount||""}
+      ${escapeHTML(f.unit||"")}
+
+      <br>
+
+      ${Math.round(f.calories)} kcal ·
+      ${round1(f.protein)}g P ·
+      ${round1(f.carbs)}g C ·
+      ${round1(f.fat)}g F
+
+     </div>
+
+    </div>
+
+    <button
+    class="danger"
+    onclick="deleteFood(${f.id})">
+
+    Delete
+
+    </button>
+
+   </div>
+
+  </div>
+
+ `).join("")
+
+ :'<div class="empty">No food logged yet.</div>';
+
+
+ document.getElementById(
+  "workoutList"
+ ).innerHTML=
+
+ day.workouts.length
+
+ ?day.workouts.map(x=>`
+
+  <div class="workoutItem">
+
+   <div class="row">
+
+    <div>
+
+     <strong>
+      ${escapeHTML(x.name)}
+     </strong>
+
+     <div class="muted">
+
+      ${x.sets} sets ×
+      ${x.reps} reps @
+      ${x.weight} lb
+
+     </div>
+
+    </div>
+
+    <button
+    class="danger"
+    onclick="deleteWorkout(${x.id})">
+
+    Delete
+
+    </button>
+
+   </div>
+
+  </div>
+
+ `).join("")
+
+ :'<div class="empty">No workout logged yet.</div>';
+
+
+ document.getElementById(
+  "weightHistory"
+ ).innerHTML=
+
+ data.weightHistory.length
+
+ ?[...data.weightHistory]
+ .reverse()
+ .map(x=>`
+
+  <div class="historyItem row">
+
+   <span>${x.date}</span>
+
+   <strong>
+    ${x.weight} lb
+   </strong>
+
+  </div>
+
+ `).join("")
+
+ :'<div class="empty">Log your first weigh-in to start tracking progress.</div>';
+
+
+ save();
+
+}
+
+
+/* HELPERS */
 
 function round1(n){
-  return Math.round((Number(n)||0)*10)/10;
+
+ return Math.round(
+  (Number(n)||0)*10
+ )/10;
+
 }
+
 
 function escapeHTML(value){
-  return String(value||"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+
+ return String(value||"")
+
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+
 }
 
-document.getElementById("foodSearch").addEventListener("keydown",e=>{
-  if(e.key==="Enter")searchFood();
-});
+
+/* ENTER TO SEARCH */
+
+document.getElementById(
+ "foodSearch"
+).addEventListener(
+ "keydown",
+ e=>{
+
+  if(e.key==="Enter")
+   searchFood();
+
+ }
+);
+
+
+document.getElementById(
+ "barcodeInput"
+).addEventListener(
+ "keydown",
+ e=>{
+
+  if(e.key==="Enter")
+   lookupManualBarcode();
+
+ }
+);
+
 
 render();
+
 </script>
 
 </body>
