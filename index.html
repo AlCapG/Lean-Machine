@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+
+<title>Lean Machine</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0b0d10;
+  color: white;
+}
+
+.app {
+  max-width: 500px;
+  margin: auto;
+  padding: 24px 18px 110px;
+}
+
+.logo {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #91ff63;
+  font-weight: 800;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 8px 0 2px;
+}
+
+.subtitle {
+  color: #8d929a;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: #15181d;
+  border: 1px solid #24282e;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.label {
+  color: #8d929a;
+  font-size: 13px;
+}
+
+.big {
+  font-size: 36px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.green {
+  color: #91ff63;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stat {
+  flex: 1;
+}
+
+.progress {
+  background: #292d33;
+  height: 9px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.progress div {
+  background: #91ff63;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.macros {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.macro {
+  text-align: center;
+}
+
+.macro strong {
+  display: block;
+  font-size: 18px;
+}
+
+button {
+  width: 100%;
+  border: none;
+  background: #91ff63;
+  color: #081005;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  margin-top: 14px;
+  cursor: pointer;
+}
+
+.secondary {
+  background: #24282e;
+  color: white;
+}
+
+input {
+  width: 100%;
+  background: #0d1014;
+  color: white;
+  border: 1px solid #30353c;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.meal {
+  padding: 13px 0;
+  border-bottom: 1px solid #292d33;
+}
+
+.meal:last-child {
+  border-bottom: none;
+}
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  width: 100%;
+  background: rgba(16,18,22,.97);
+  border-top: 1px solid #292d33;
+  display: flex;
+  justify-content: space-around;
+  padding: 13px 5px 25px;
+}
+
+.nav span {
+  color: #8d929a;
+  font-size: 12px;
+}
+
+.nav .active {
+  color: #91ff63;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="logo">LEAN MACHINE</div>
+  <h1>Today's Mission</h1>
+  <div class="subtitle">Get lean. Stay strong.</div>
+
+  <div class="card">
+
+    <div class="row">
+
+      <div class="stat">
+        <div class="label">CURRENT</div>
+        <div class="big">
+          <span id="currentWeight">220</span>
+          <small>lb</small>
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="label">GOAL</div>
+        <div class="big green">200<small>lb</small></div>
+      </div>
+
+    </div>
+
+    <div class="progress">
+      <div id="weightProgress" style="width:0%"></div>
+    </div>
+
+    <button class="secondary" onclick="changeWeight()">
+      Log Today's Weight
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <div class="label">TODAY'S CALORIES</div>
+
+    <div class="big">
+      <span id="calories">0</span>
+      <small>/ 2400</small>
+    </div>
+
+    <div class="progress">
+      <div id="calorieProgress" style="width:0%"></div>
+    </div>
+
+    <div class="macros">
+
+      <div class="macro">
+        <strong id="protein">0g</strong>
+        <span class="label">Protein</span>
+      </div>
+
+      <div class="macro">
+        <strong id="carbs">0g</strong>
+        <span class="label">Carbs</span>
+      </div>
+
+      <div class="macro">
+        <strong id="fat">0g</strong>
+        <span class="label">Fat</span>
+      </div>
+
+    </div>
+
+    <button onclick="toggleFood()">+ Add Food</button>
+
+  </div>
+
+
+  <div id="foodForm" class="card hidden">
+
+    <div class="label">ADD FOOD</div>
+
+    <input id="foodName" placeholder="Food name">
+
+    <input id="foodCalories" type="number" placeholder="Calories">
+
+    <input id="foodProtein" type="number" placeholder="Protein (g)">
+
+    <input id="foodCarbs" type="number" placeholder="Carbs (g)">
+
+    <input id="foodFat" type="number" placeholder="Fat (g)">
+
+    <button onclick="addFood()">Save Food</button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="label">TODAY'S FOOD</div>
+
+    <div id="foodList">
+      <div class="meal">Nothing logged yet.</div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="row">
+
+      <div>
+        <div class="label">DAILY STEPS</div>
+        <div class="big"><span id="steps">0</span></div>
+        <div class="label">Goal: 10,000</div>
+      </div>
+
+      <div>
+        <div class="label">CREATINE</div>
+        <div class="big">5g</div>
+      </div>
+
+    </div>
+
+    <button class="secondary" onclick="logSteps()">
+      Update Steps
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="label">STRENGTH</div>
+
+    <div class="meal">🏋️ Bench Press</div>
+    <div class="meal">🦵 Squat</div>
+    <div class="meal">⚡ Deadlift</div>
+
+  </div>
+
+</div>
+
+
+<div class="nav">
+
+  <span class="active">●<br>Home</span>
+  <span>●<br>Food</span>
+  <span>●<br>Training</span>
+  <span>●<br>Progress</span>
+
+</div>
+
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("leanMachine")) || {
+  weight: 220,
+  calories: 0,
+  protein: 0,
+  carbs: 0,
+  fat: 0,
+  steps: 0,
+  foods: []
+};
+
+function save() {
+  localStorage.setItem("leanMachine", JSON.stringify(data));
+  render();
+}
+
+function render() {
+
+  document.getElementById("currentWeight").innerText = data.weight;
+
+  document.getElementById("calories").innerText = data.calories;
+
+  document.getElementById("protein").innerText = data.protein + "g";
+
+  document.getElementById("carbs").innerText = data.carbs + "g";
+
+  document.getElementById("fat").innerText = data.fat + "g";
+
+  document.getElementById("steps").innerText =
+    data.steps.toLocaleString();
+
+
+  let caloriePercent =
+    Math.min((data.calories / 2400) * 100, 100);
+
+  document.getElementById("calorieProgress").style.width =
+    caloriePercent + "%";
+
+
+  let weightPercent =
+    Math.min(((220 - data.weight) / 20) * 100, 100);
+
+  document.getElementById("weightProgress").style.width =
+    weightPercent + "%";
+
+
+  let list = document.getElementById("foodList");
+
+  if (data.foods.length === 0) {
+
+    list.innerHTML =
+      '<div class="meal">Nothing logged yet.</div>';
+
+  } else {
+
+    list.innerHTML = data.foods.map(food =>
+      `<div class="meal">
+        <strong>${food.name}</strong><br>
+        <span class="label">
+          ${food.calories} kcal •
+          ${food.protein}g protein
+        </span>
+      </div>`
+    ).join("");
+
+  }
+
+}
+
+
+function toggleFood() {
+
+  document
+    .getElementById("foodForm")
+    .classList.toggle("hidden");
+
+}
+
+
+function addFood() {
+
+  let food = {
+
+    name:
+      document.getElementById("foodName").value || "Food",
+
+    calories:
+      Number(document.getElementById("foodCalories").value),
+
+    protein:
+      Number(document.getElementById("foodProtein").value),
+
+    carbs:
+      Number(document.getElementById("foodCarbs").value),
+
+    fat:
+      Number(document.getElementById("foodFat").value)
+
+  };
+
+
+  data.foods.push(food);
+
+  data.calories += food.calories;
+  data.protein += food.protein;
+  data.carbs += food.carbs;
+  data.fat += food.fat;
+
+  save();
+
+  document.getElementById("foodForm")
+    .classList.add("hidden");
+
+}
+
+
+function changeWeight() {
+
+  let weight =
+    prompt("Enter today's weight (lb):", data.weight);
+
+  if (weight) {
+
+    data.weight = Number(weight);
+
+    save();
+
+  }
+
+}
+
+
+function logSteps() {
+
+  let steps =
+    prompt("How many steps today?", data.steps);
+
+  if (steps) {
+
+    data.steps = Number(steps);
+
+    save();
+
+  }
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
