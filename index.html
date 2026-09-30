@@ -1156,347 +1156,134 @@ function lookupManualBarcode(){
 /* BARCODE LOOKUP */
 
 async function lookupBarcode(code){
-
- const message=
- document.getElementById(
-  "barcodeMessage"
- );
-
- const result=
- document.getElementById(
-  "barcodeResult"
- );
-
-
- message.textContent=
- "Looking up product...";
-
+ const message=document.getElementById("barcodeMessage");
+ const result=document.getElementById("barcodeResult");
+ message.textContent="Looking up product...";
  result.innerHTML="";
 
-
  try{
-
-  const response=
-  await fetch(
-   API+
-   "/barcode?code="+
-   encodeURIComponent(code)
-  );
-
-
-  const json=
-  await response.json();
-
-
-  if(!response.ok||
-     !json.product){
-
-   throw new Error(
-    json.error||
-    "Product not found"
-   );
-
-  }
-
+  const response=await fetch(API+"/barcode?code="+encodeURIComponent(code));
+  const json=await response.json();
+  if(!response.ok||!json.product) throw new Error(json.error||"Product not found");
 
   const p=json.product;
-  currentBarcodeProduct = p;
+  currentBarcodeProduct=p;
+  barcodeQuantityMode="serving";
+  message.textContent="Confirm this is the product you're holding.";
 
-  message.textContent=
-  "Confirm this is the product you're holding.";
+  const image=p.image?`<img class="productImage" src="${escapeHTML(p.image)}" alt="Product photo" onerror="this.style.display='none'">`:"";
+  const measure=getBarcodeServingMeasure(p);
+  const modes=measure?`<div class="foodModes" style="margin-top:12px">
+   <button id="barcodeServingModeBtn" class="active" type="button" onclick="setBarcodeQuantityMode('serving')">Servings</button>
+   <button id="barcodeMeasureModeBtn" type="button" onclick="setBarcodeQuantityMode('measure')">${escapeHTML(measure.unit)}</button>
+  </div>`:"";
 
+  result.innerHTML=`<div class="productCard">${image}<div class="productInfo">
+   <div class="badge">BARCODE MATCH</div>
+   <div class="resultName" style="font-size:20px">${escapeHTML(p.name)}</div>
+   <div class="resultBrand">${escapeHTML(p.brand)}</div>
+   <div class="resultMacros">Barcode: ${escapeHTML(p.barcode)}<br>Serving: ${escapeHTML(p.serving||"Not provided")}<br><br>
+   <strong>${p.caloriesPerServing||0} calories</strong><br>
+   ${p.proteinPerServing||0}g protein · ${p.carbsPerServing||0}g carbs · ${p.fatPerServing||0}g fat</div>
+   <div style="margin-top:14px"><div class="muted">How much did you have?</div>${modes}
+   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0">
+    <button class="secondary" type="button" onclick="setBarcodeAmount(.5)">½</button>
+    <button class="secondary" type="button" onclick="setBarcodeAmount(1)">1</button>
+    <button class="secondary" type="button" onclick="setBarcodeAmount(1.5)">1½</button>
+    <button class="secondary" type="button" onclick="setBarcodeAmount(2)">2</button>
+   </div>
+   <div id="barcodeQuantityLabel" class="muted" style="margin-top:10px">Servings</div>
+   <input id="barcodeAmount" type="number" inputmode="decimal" min=".01" step=".1" value="1" oninput="updateBarcodePreview()">
+   <div id="barcodeServingLabel" class="muted" style="margin-top:6px"></div>
+   <div id="barcodeCalculated" class="resultMacros" style="margin-top:12px"></div>
+   <button id="addBarcodeBtn" type="button">Add to Today</button>
+   </div></div></div>`;
 
-  const image=
-  p.image
-  ?`
-   <img
-   class="productImage"
-   src="${escapeHTML(p.image)}"
-   alt="Product photo"
-   onerror="this.style.display='none'">
-  `
-  :"";
-
-
-  result.innerHTML=`
-
-   <div class="productCard">
-
-    ${image}
-
-    <div class="productInfo">
-
-     <div class="badge">
-      BARCODE MATCH
-     </div>
-
-     <div class="resultName"
-     style="font-size:20px">
-
-      ${escapeHTML(p.name)}
-
-     </div>
-
-     <div class="resultBrand">
-
-      ${escapeHTML(p.brand)}
-
-     </div>
-
-
-     <div class="resultMacros">
-
-      Barcode:
-      ${escapeHTML(p.barcode)}
-
-      <br>
-
-      Serving:
-      ${escapeHTML(
-       p.serving||
-       "Not provided"
-      )}
-
-      <br><br>
-
-      <strong>
-      ${p.caloriesPerServing||0}
-      calories
-      </strong>
-
-      <br>
-
-      ${p.proteinPerServing||0}g protein ·
-      ${p.carbsPerServing||0}g carbs ·
-      ${p.fatPerServing||0}g fat
-
-     </div>
-
-
-    <div style="margin-top:14px">
-
-  <div class="muted">How much did you have?</div>
-
-  <div style="
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:7px;
-    margin:10px 0;
-  ">
-    <button class="secondary" onclick="setBarcodeServing(0.5)">½</button>
-    <button class="secondary" onclick="setBarcodeServing(1)">1</button>
-    <button class="secondary" onclick="setBarcodeServing(1.5)">1½</button>
-    <button class="secondary" onclick="setBarcodeServing(2)">2</button>
-  </div>
-
-  <div class="muted" style="margin-top:10px">
-    Servings
-  </div>
-
-  <input
-    id="barcodeServings"
-    type="number"
-    inputmode="decimal"
-    min="0.1"
-    step="0.1"
-    value="1"
-    oninput="updateBarcodePreview()"
-  >
-
-  <div id="barcodeServingLabel"
-       class="muted"
-       style="margin-top:6px">
-  </div>
-
-  <div id="barcodeCalculated"
-       class="resultMacros"
-       style="margin-top:12px">
-  </div>
-
-  <button id="addBarcodeBtn" type="button">
-    Add to Today
-  </button>
-
-</div>
-</div>
-</div>
-
-  `;
-
+  updateBarcodeQuantityUI();
   updateBarcodePreview();
-
-  const addBtn = document.getElementById("addBarcodeBtn");
-  if(addBtn){
-   addBtn.addEventListener("click", function(){
-    addBarcodeFood(p);
-   });
-  }
-  
+  document.getElementById("addBarcodeBtn").addEventListener("click",()=>addBarcodeFood(p));
  }catch(error){
-
-  message.textContent=
-  error.message||
-  "Product not found.";
-
+  currentBarcodeProduct=null;
+  message.textContent=error.message||"Product not found.";
  }
-
 }
-let currentBarcodeProduct = null;
 
-function setBarcodeServing(amount){
+let currentBarcodeProduct=null;
+let barcodeQuantityMode="serving";
 
- document.getElementById(
-  "barcodeServings"
- ).value = amount;
+function getBarcodeServingMeasure(p){
+ const serving=String((p&&p.serving)||"");
+ const m=serving.match(/(\d+(?:[.,]\d+)?)\s*(ml|milliliters?|millilitres?|g|grams?|grammes?)\b/i);
+ if(!m)return null;
+ const value=Number(m[1].replace(",","."));
+ if(!(value>0))return null;
+ return {value,unit:m[2].toLowerCase().startsWith("m")?"mL":"g"};
+}
 
+function setBarcodeQuantityMode(mode){
+ if(mode==="measure"&&!getBarcodeServingMeasure(currentBarcodeProduct))return;
+ barcodeQuantityMode=mode;
+ updateBarcodeQuantityUI();
  updateBarcodePreview();
+}
 
+function updateBarcodeQuantityUI(){
+ const input=document.getElementById("barcodeAmount"), label=document.getElementById("barcodeQuantityLabel");
+ if(!currentBarcodeProduct||!input||!label)return;
+ const measure=getBarcodeServingMeasure(currentBarcodeProduct);
+ const sb=document.getElementById("barcodeServingModeBtn"), mb=document.getElementById("barcodeMeasureModeBtn");
+ if(barcodeQuantityMode==="measure"&&measure){
+  input.value=measure.value; input.step="1"; label.textContent=measure.unit;
+  if(sb)sb.classList.remove("active"); if(mb)mb.classList.add("active");
+ }else{
+  barcodeQuantityMode="serving"; input.value=1; input.step=".1"; label.textContent="Servings";
+  if(sb)sb.classList.add("active"); if(mb)mb.classList.remove("active");
+ }
+}
+
+function setBarcodeAmount(n){
+ const input=document.getElementById("barcodeAmount"); if(!input)return;
+ const measure=getBarcodeServingMeasure(currentBarcodeProduct);
+ input.value=(barcodeQuantityMode==="measure"&&measure)?round1(measure.value*n):n;
+ updateBarcodePreview();
+}
+function setBarcodeServing(n){setBarcodeAmount(n)}
+
+function getBarcodeQuantity(){
+ const p=currentBarcodeProduct,input=document.getElementById("barcodeAmount");
+ if(!p||!input)return null;
+ const entered=Number(input.value); if(!(entered>0))return null;
+ const measure=getBarcodeServingMeasure(p);
+ if(barcodeQuantityMode==="measure"&&measure)return {multiplier:entered/measure.value,amount:entered,unit:measure.unit,description:entered+" "+measure.unit};
+ return {multiplier:entered,amount:entered,unit:entered===1?(p.serving||"serving"):"servings",description:entered+" × "+(p.serving||"serving")};
 }
 
 function updateBarcodePreview(){
-
- if(!currentBarcodeProduct) return;
-
- const p = currentBarcodeProduct;
-
- const servings =
- Number(
-  document.getElementById(
-   "barcodeServings"
-  ).value
- ) || 0;
-
- const calories =
- Math.round(
-  (Number(p.caloriesPerServing)||0)
-  * servings
- );
-
- const protein =
- round1(
-  (Number(p.proteinPerServing)||0)
-  * servings
- );
-
- const carbs =
- round1(
-  (Number(p.carbsPerServing)||0)
-  * servings
- );
-
- const fat =
- round1(
-  (Number(p.fatPerServing)||0)
-  * servings
- );
-
- document.getElementById(
-  "barcodeCalculated"
- ).innerHTML = `
-   <strong>${calories} calories</strong><br>
-   ${protein}g protein ·
-   ${carbs}g carbs ·
-   ${fat}g fat
- `;
-
- document.getElementById(
-  "barcodeServingLabel"
- ).textContent =
- servings + " × " +
- (p.serving || "serving");
-
+ const p=currentBarcodeProduct,q=getBarcodeQuantity(); if(!p||!q)return;
+ const cal=Math.round((Number(p.caloriesPerServing)||0)*q.multiplier);
+ const pro=round1((Number(p.proteinPerServing)||0)*q.multiplier);
+ const carbs=round1((Number(p.carbsPerServing)||0)*q.multiplier);
+ const fat=round1((Number(p.fatPerServing)||0)*q.multiplier);
+ document.getElementById("barcodeCalculated").innerHTML=`<strong>${cal} calories</strong><br>${pro}g protein · ${carbs}g carbs · ${fat}g fat`;
+ document.getElementById("barcodeServingLabel").textContent=q.description;
 }
 
-function addCurrentBarcodeFood(){
-
- if(!currentBarcodeProduct) return;
-
- addBarcodeFood(
-  currentBarcodeProduct
- );
-
-}
-
-/* ADD BARCODE FOOD */
+function addCurrentBarcodeFood(){if(currentBarcodeProduct)addBarcodeFood(currentBarcodeProduct)}
 
 function addBarcodeFood(p){
-
- const servingInput =
- document.getElementById("barcodeServings");
-
- if(!p || !servingInput){
-  alert("Please look up the product again.");
-  return;
- }
-
- const servings=
- Number(servingInput.value);
-
- if(!servings || servings<=0){
-
-  alert("Enter the number of servings.");
-  return;
-
- }
-
+ const q=getBarcodeQuantity();
+ if(!p||!q){alert("Enter a valid amount.");return}
  todayData().foods.push({
-
-  id:Date.now(),
-
-  name:p.name,
-
-  brand:p.brand||"",
-
-  amount:servings,
-
-  unit:
-   servings===1
-   ?(p.serving||"serving")
-   :"servings",
-
-  calories:
-   Math.round(
-    (Number(p.caloriesPerServing)||0)
-    *servings
-   ),
-
-  protein:
-   round1(
-    (Number(p.proteinPerServing)||0)
-    *servings
-   ),
-
-  carbs:
-   round1(
-    (Number(p.carbsPerServing)||0)
-    *servings
-   ),
-
-  fat:
-   round1(
-    (Number(p.fatPerServing)||0)
-    *servings
-   ),
-
-  barcode:p.barcode,
-
-  image:p.image||""
-
+  id:Date.now(),name:p.name,brand:p.brand||"",amount:q.amount,unit:q.unit,
+  calories:Math.round((Number(p.caloriesPerServing)||0)*q.multiplier),
+  protein:round1((Number(p.proteinPerServing)||0)*q.multiplier),
+  carbs:round1((Number(p.carbsPerServing)||0)*q.multiplier),
+  fat:round1((Number(p.fatPerServing)||0)*q.multiplier),
+  barcode:p.barcode,image:p.image||""
  });
-
- save();
- render();
-
- const message =
- document.getElementById("barcodeMessage");
-
- if(message){
-  message.textContent =
-  "✓ Added " + servings +
-  " serving" + (servings===1 ? "" : "s") +
-  " to today's food.";
- }
-
+ save();render();
+ const message=document.getElementById("barcodeMessage");
+ if(message)message.textContent="✓ Added "+q.description+" to today's food.";
 }
 
 
