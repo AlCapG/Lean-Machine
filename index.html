@@ -53,6 +53,13 @@ button:disabled{opacity:.55}
 .secondary{background:#242b27;color:white}
 .danger{background:#351c1c;color:#ff8585}
 
+.exerciseVisual{width:100%;height:125px;border-radius:12px;margin:10px 0;background:#0c100e;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.exerciseVisual svg{width:100%;height:100%}
+.formBox{background:#0c100e;border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:9px}
+.formBox ol{margin:8px 0 0;padding-left:20px;color:var(--muted);line-height:1.55}
+.formBox strong{color:white}
+.howBtn{width:auto;padding:7px 10px;margin:0}
+
 .foodItem,.workoutItem,.historyItem,.result{
  background:var(--card2);border-radius:14px;padding:13px;margin-top:9px
 }
@@ -1468,6 +1475,48 @@ function takeCreatine(){
 }
 
 
+const EXERCISE_GUIDES={
+ "Bench Press":["Chest · Front shoulders · Triceps",["Plant your feet and keep your upper back stable.","Lower the bar under control toward the mid/lower chest.","Keep wrists stacked over the forearms.","Press up while keeping the shoulders controlled."]],
+ "Squat":["Quadriceps · Glutes · Adductors",["Brace your trunk before each rep.","Keep the whole foot planted as you descend.","Let knees track in line with your toes.","Stand by driving through the floor while maintaining control."]],
+ "Romanian Deadlift":["Hamstrings · Glutes · Back extensors",["Start tall with the weight close to your thighs.","Push your hips back with a small, comfortable knee bend.","Keep the weight close and your spine controlled.","Stop when hamstring tension limits the hinge, then stand tall."]],
+ "Shoulder Press":["Shoulders · Triceps",["Brace your trunk and keep wrists over elbows.","Press overhead without forcing an excessive back arch.","Finish with the weight balanced over your body.","Lower under control."]],
+ "Lat Pulldown":["Lats · Upper back · Biceps",["Sit tall and secure your thighs under the pad.","Drive the elbows down and pull toward the upper chest.","Avoid swinging your torso to move the weight.","Return slowly until your arms are extended."]],
+ "Seated Cable Row":["Lats · Rhomboids · Mid-back · Biceps",["Sit tall with a stable trunk.","Pull the handle toward your torso while driving elbows back.","Avoid shrugging or leaning far backward.","Return with control."]],
+ "Walking Lunge":["Quadriceps · Glutes · Hamstrings",["Step far enough forward to stay balanced.","Lower with control while keeping the front foot planted.","Keep the front knee tracking with the toes.","Push through the front foot and continue into the next step."]],
+ "Incline Dumbbell Press":["Upper chest · Front shoulders · Triceps",["Use a moderate bench incline.","Keep shoulder blades supported by the bench.","Lower the dumbbells under control beside the upper chest.","Press upward without banging the dumbbells together."]],
+ "Lateral Raise":["Side delts",["Use a light, controllable load.","Raise the arms out to the sides without shrugging.","Keep a soft bend in the elbows.","Lower slowly."]],
+ "Triceps Pushdown":["Triceps",["Keep elbows close to your sides.","Extend the elbows without swinging the shoulders.","Finish under control.","Return slowly to the start."]],
+ "Chest-Supported Row":["Upper back · Lats · Biceps",["Keep your chest supported on the pad.","Pull elbows back without shrugging.","Pause briefly in the contracted position.","Lower under control."]],
+ "Face Pull":["Rear delts · Upper back",["Set the cable around face height.","Pull toward the face with elbows high and controlled.","Bring the shoulder blades back together.","Return slowly without losing posture."]],
+ "Dumbbell Curl":["Biceps",["Keep elbows close to your torso.","Curl without swinging your body.","Keep wrists neutral.","Lower through a comfortable full range."]],
+ "Leg Press":["Quadriceps · Glutes",["Keep your back and hips supported by the pad.","Place feet securely on the platform.","Lower only as far as you can maintain a stable pelvis.","Press through the feet without forcefully locking the knees."]],
+ "Leg Curl":["Hamstrings",["Set the machine so your knees move comfortably.","Keep hips supported against the pad.","Curl smoothly through a comfortable range.","Return the weight slowly."]],
+ "Calf Raise":["Calves",["Keep the ball of the foot supported.","Rise onto the toes under control.","Pause briefly at the top.","Lower through a comfortable range without bouncing."]]
+};
+
+function exerciseDiagram(name){
+ const n=name.toLowerCase(), accent="#8cff38";
+ const leg=n.includes("squat")||n.includes("lunge")||n.includes("leg ")||n.includes("calf");
+ const hinge=n.includes("deadlift");
+ const pull=n.includes("pulldown")||n.includes("row")||n.includes("face pull");
+ const press=n.includes("press");
+ let pose;
+ if(hinge)pose='<line x1="100" y1="42" x2="82" y2="72"/><line x1="82" y1="72" x2="67" y2="106"/><line x1="82" y1="72" x2="108" y2="105"/><line x1="88" y1="58" x2="62" y2="83"/><line x1="88" y1="58" x2="112" y2="83"/><line x1="52" y1="84" x2="122" y2="84"/>';
+ else if(leg)pose='<line x1="100" y1="43" x2="100" y2="72"/><line x1="100" y1="72" x2="78" y2="93"/><line x1="78" y1="93" x2="62" y2="110"/><line x1="100" y1="72" x2="123" y2="92"/><line x1="123" y1="92" x2="142" y2="110"/><line x1="100" y1="56" x2="72" y2="66"/><line x1="100" y1="56" x2="128" y2="66"/>';
+ else if(pull)pose='<line x1="100" y1="43" x2="100" y2="86"/><line x1="100" y1="56" x2="70" y2="35"/><line x1="100" y1="56" x2="130" y2="35"/><line x1="70" y1="35" x2="62" y2="18"/><line x1="130" y1="35" x2="138" y2="18"/><line x1="55" y1="17" x2="145" y2="17"/><line x1="100" y1="86" x2="82" y2="112"/><line x1="100" y1="86" x2="118" y2="112"/>';
+ else if(press)pose='<line x1="100" y1="43" x2="100" y2="86"/><line x1="100" y1="56" x2="72" y2="34"/><line x1="72" y1="34" x2="72" y2="14"/><line x1="100" y1="56" x2="128" y2="34"/><line x1="128" y1="34" x2="128" y2="14"/><line x1="60" y1="14" x2="140" y2="14"/><line x1="100" y1="86" x2="82" y2="112"/><line x1="100" y1="86" x2="118" y2="112"/>';
+ else pose='<line x1="100" y1="43" x2="100" y2="86"/><line x1="100" y1="56" x2="72" y2="75"/><line x1="100" y1="56" x2="128" y2="75"/><line x1="100" y1="86" x2="82" y2="112"/><line x1="100" y1="86" x2="118" y2="112"/>';
+ return `<div class="exerciseVisual"><svg viewBox="0 0 200 125"><rect width="200" height="125" fill="#0c100e"/><circle cx="100" cy="30" r="10" fill="none" stroke="${accent}" stroke-width="5"/><g stroke="${accent}" stroke-width="6" stroke-linecap="round" fill="none">${pose}</g><text x="10" y="116" fill="#9ca7a0" font-size="10">LEAN MACHINE FORM GUIDE</text></svg></div>`;
+}
+
+function toggleExerciseGuide(id,name){
+ const el=document.getElementById(id); if(!el)return;
+ if(el.innerHTML){el.innerHTML="";return}
+ const g=EXERCISE_GUIDES[name];
+ if(!g){el.innerHTML='<div class="formBox muted">Detailed form guide coming soon.</div>';return}
+ el.innerHTML=`<div class="formBox">${exerciseDiagram(name)}<strong>How to perform</strong><div class="muted" style="margin-top:3px">${escapeHTML(g[0])}</div><ol>${g[1].map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol><div class="muted" style="margin-top:10px;font-size:12px">Use a load you can control. Stop if an exercise causes sharp or unusual pain.</div></div>`;
+}
+
 const WORKOUT_PROGRAMS={
  push:{
   name:"Push",
@@ -1565,9 +1614,12 @@ function renderWorkoutPrograms(){
       <strong>${i+1}. ${escapeHTML(e[0])}</strong>
       <div class="muted">${e[1]} sets × ${escapeHTML(e[2])} reps · Rest ${escapeHTML(e[3])}<br>${escapeHTML(e[4])}</div>
      </div>
-     <button class="secondary" style="width:auto" type="button"
-      onclick="loadSuggestedExercise('${keySafe(e[0])}',${e[1]},'${keySafe(e[2])}')">Log</button>
+     <div style="display:flex;gap:6px">
+      <button class="secondary howBtn" type="button" onclick="toggleExerciseGuide('guide-${selectedWorkoutProgram}-${i}','${keySafe(e[0])}')">How</button>
+      <button class="secondary howBtn" type="button" onclick="loadSuggestedExercise('${keySafe(e[0])}',${e[1]},'${keySafe(e[2])}')">Log</button>
+     </div>
     </div>
+    <div id="guide-${selectedWorkoutProgram}-${i}"></div>
    </div>
   `).join("")}
  `;
