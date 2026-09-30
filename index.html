@@ -53,8 +53,6 @@ button:disabled{opacity:.55}
 .secondary{background:#242b27;color:white}
 .danger{background:#351c1c;color:#ff8585}
 
-.exerciseVisual{width:100%;height:125px;border-radius:12px;margin:10px 0;background:#0c100e;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.exerciseVisual svg{width:100%;height:100%}
 .formBox{background:#0c100e;border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:9px}
 .formBox ol{margin:8px 0 0;padding-left:20px;color:var(--muted);line-height:1.55}
 .formBox strong{color:white}
@@ -1494,27 +1492,12 @@ const EXERCISE_GUIDES={
  "Calf Raise":["Calves",["Keep the ball of the foot supported.","Rise onto the toes under control.","Pause briefly at the top.","Lower through a comfortable range without bouncing."]]
 };
 
-function exerciseDiagram(name){
- const n=name.toLowerCase(), accent="#8cff38";
- const leg=n.includes("squat")||n.includes("lunge")||n.includes("leg ")||n.includes("calf");
- const hinge=n.includes("deadlift");
- const pull=n.includes("pulldown")||n.includes("row")||n.includes("face pull");
- const press=n.includes("press");
- let pose;
- if(hinge)pose='<line x1="100" y1="42" x2="82" y2="72"/><line x1="82" y1="72" x2="67" y2="106"/><line x1="82" y1="72" x2="108" y2="105"/><line x1="88" y1="58" x2="62" y2="83"/><line x1="88" y1="58" x2="112" y2="83"/><line x1="52" y1="84" x2="122" y2="84"/>';
- else if(leg)pose='<line x1="100" y1="43" x2="100" y2="72"/><line x1="100" y1="72" x2="78" y2="93"/><line x1="78" y1="93" x2="62" y2="110"/><line x1="100" y1="72" x2="123" y2="92"/><line x1="123" y1="92" x2="142" y2="110"/><line x1="100" y1="56" x2="72" y2="66"/><line x1="100" y1="56" x2="128" y2="66"/>';
- else if(pull)pose='<line x1="100" y1="43" x2="100" y2="86"/><line x1="100" y1="56" x2="70" y2="35"/><line x1="100" y1="56" x2="130" y2="35"/><line x1="70" y1="35" x2="62" y2="18"/><line x1="130" y1="35" x2="138" y2="18"/><line x1="55" y1="17" x2="145" y2="17"/><line x1="100" y1="86" x2="82" y2="112"/><line x1="100" y1="86" x2="118" y2="112"/>';
- else if(press)pose='<line x1="100" y1="43" x2="100" y2="86"/><line x1="100" y1="56" x2="72" y2="34"/><line x1="72" y1="34" x2="72" y2="14"/><line x1="100" y1="56" x2="128" y2="34"/><line x1="128" y1="34" x2="128" y2="14"/><line x1="60" y1="14" x2="140" y2="14"/><line x1="100" y1="86" x2="82" y2="112"/><line x1="100" y1="86" x2="118" y2="112"/>';
- else pose='<line x1="100" y1="43" x2="100" y2="86"/><line x1="100" y1="56" x2="72" y2="75"/><line x1="100" y1="56" x2="128" y2="75"/><line x1="100" y1="86" x2="82" y2="112"/><line x1="100" y1="86" x2="118" y2="112"/>';
- return `<div class="exerciseVisual"><svg viewBox="0 0 200 125"><rect width="200" height="125" fill="#0c100e"/><circle cx="100" cy="30" r="10" fill="none" stroke="${accent}" stroke-width="5"/><g stroke="${accent}" stroke-width="6" stroke-linecap="round" fill="none">${pose}</g><text x="10" y="116" fill="#9ca7a0" font-size="10">LEAN MACHINE FORM GUIDE</text></svg></div>`;
-}
-
 function toggleExerciseGuide(id,name){
  const el=document.getElementById(id); if(!el)return;
  if(el.innerHTML){el.innerHTML="";return}
  const g=EXERCISE_GUIDES[name];
  if(!g){el.innerHTML='<div class="formBox muted">Detailed form guide coming soon.</div>';return}
- el.innerHTML=`<div class="formBox">${exerciseDiagram(name)}<strong>How to perform</strong><div class="muted" style="margin-top:3px">${escapeHTML(g[0])}</div><ol>${g[1].map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol><div class="muted" style="margin-top:10px;font-size:12px">Use a load you can control. Stop if an exercise causes sharp or unusual pain.</div></div>`;
+ el.innerHTML=`<div class="formBox"><strong>How to perform</strong><div class="muted" style="margin-top:3px">${escapeHTML(g[0])}</div><ol>${g[1].map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ol><div class="muted" style="margin-top:10px;font-size:12px">Use a load you can control. Stop if an exercise causes sharp or unusual pain.</div></div>`;
 }
 
 const WORKOUT_PROGRAMS={
