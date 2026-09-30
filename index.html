@@ -440,29 +440,24 @@ style="margin-top:10px"></div>
 <div class="date todayDate"></div>
 
 <div class="card">
+<h2>Suggested Workouts</h2>
+<div class="muted">Choose a workout to see the exercises, sets, reps and rest times.</div>
+<div id="workoutPrograms" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px"></div>
+<div id="suggestedWorkoutDetail"></div>
+</div>
 
+<div class="card">
 <h2>Log Exercise</h2>
 
-<input id="exerciseName"
-placeholder="Exercise e.g. Bench Press">
+<input id="exerciseName" placeholder="Exercise e.g. Bench Press">
 
-<input id="exerciseWeight"
-type="number"
-step=".5"
-placeholder="Weight (lb)">
+<input id="exerciseWeight" type="number" step=".5" placeholder="Weight (lb)">
 
-<input id="exerciseSets"
-type="number"
-placeholder="Sets">
+<input id="exerciseSets" type="number" placeholder="Sets">
 
-<input id="exerciseReps"
-type="number"
-placeholder="Reps">
+<input id="exerciseReps" type="number" placeholder="Reps">
 
-<button onclick="addWorkout()">
-Add Exercise
-</button>
-
+<button onclick="addWorkout()">Add Exercise</button>
 </div>
 
 <div class="card">
@@ -1473,6 +1468,131 @@ function takeCreatine(){
 }
 
 
+const WORKOUT_PROGRAMS={
+ push:{
+  name:"Push",
+  subtitle:"Chest · Shoulders · Triceps",
+  exercises:[
+   ["Bench Press",4,"6–8","2–3 min","Chest, shoulders & triceps"],
+   ["Incline Dumbbell Press",3,"8–10","90 sec","Upper chest"],
+   ["Shoulder Press",3,"8–10","90 sec","Shoulders"],
+   ["Lateral Raise",3,"12–15","60 sec","Side delts"],
+   ["Triceps Pushdown",3,"10–15","60 sec","Triceps"]
+  ]
+ },
+ pull:{
+  name:"Pull",
+  subtitle:"Back · Biceps",
+  exercises:[
+   ["Lat Pulldown",4,"8–10","90 sec","Lats & upper back"],
+   ["Seated Cable Row",3,"8–12","90 sec","Mid-back"],
+   ["Chest-Supported Row",3,"8–12","90 sec","Upper back"],
+   ["Face Pull",3,"12–15","60 sec","Rear delts & upper back"],
+   ["Dumbbell Curl",3,"10–12","60 sec","Biceps"]
+  ]
+ },
+ legs:{
+  name:"Legs",
+  subtitle:"Quads · Hamstrings · Glutes",
+  exercises:[
+   ["Squat",4,"6–8","2–3 min","Quads & glutes"],
+   ["Romanian Deadlift",3,"8–10","2 min","Hamstrings & glutes"],
+   ["Leg Press",3,"10–12","90 sec","Quads & glutes"],
+   ["Leg Curl",3,"10–15","60–90 sec","Hamstrings"],
+   ["Calf Raise",4,"10–15","60 sec","Calves"]
+  ]
+ },
+ upper:{
+  name:"Upper",
+  subtitle:"Chest · Back · Shoulders · Arms",
+  exercises:[
+   ["Bench Press",3,"6–8","2–3 min","Chest & triceps"],
+   ["Lat Pulldown",3,"8–10","90 sec","Back & biceps"],
+   ["Seated Cable Row",3,"8–12","90 sec","Mid-back"],
+   ["Shoulder Press",3,"8–10","90 sec","Shoulders"],
+   ["Dumbbell Curl",2,"10–12","60 sec","Biceps"],
+   ["Triceps Pushdown",2,"10–12","60 sec","Triceps"]
+  ]
+ },
+ lower:{
+  name:"Lower",
+  subtitle:"Quads · Hamstrings · Glutes",
+  exercises:[
+   ["Squat",4,"6–8","2–3 min","Quads & glutes"],
+   ["Romanian Deadlift",3,"8–10","2 min","Hamstrings & glutes"],
+   ["Walking Lunge",3,"10 each leg","90 sec","Legs & glutes"],
+   ["Leg Curl",3,"10–15","60–90 sec","Hamstrings"],
+   ["Calf Raise",4,"10–15","60 sec","Calves"]
+  ]
+ },
+ full:{
+  name:"Full Body",
+  subtitle:"Whole body",
+  exercises:[
+   ["Squat",3,"6–8","2–3 min","Lower body"],
+   ["Bench Press",3,"6–8","2–3 min","Chest & triceps"],
+   ["Lat Pulldown",3,"8–10","90 sec","Back & biceps"],
+   ["Romanian Deadlift",3,"8–10","2 min","Hamstrings & glutes"],
+   ["Lateral Raise",2,"12–15","60 sec","Shoulders"]
+  ]
+ }
+};
+
+let selectedWorkoutProgram="push";
+
+function renderWorkoutPrograms(){
+ const buttons=document.getElementById("workoutPrograms");
+ const detail=document.getElementById("suggestedWorkoutDetail");
+ if(!buttons||!detail)return;
+
+ buttons.innerHTML=Object.entries(WORKOUT_PROGRAMS).map(([key,p])=>`
+  <button class="${selectedWorkoutProgram===key?"":"secondary"}"
+   type="button" onclick="selectWorkoutProgram('${key}')">
+   ${escapeHTML(p.name)}
+  </button>
+ `).join("");
+
+ const p=WORKOUT_PROGRAMS[selectedWorkoutProgram];
+ detail.innerHTML=`
+  <div style="margin-top:18px">
+   <strong style="font-size:20px">${escapeHTML(p.name)}</strong>
+   <div class="muted">${escapeHTML(p.subtitle)}</div>
+  </div>
+  ${p.exercises.map((e,i)=>`
+   <div class="workoutItem">
+    <div class="row">
+     <div>
+      <strong>${i+1}. ${escapeHTML(e[0])}</strong>
+      <div class="muted">${e[1]} sets × ${escapeHTML(e[2])} reps · Rest ${escapeHTML(e[3])}<br>${escapeHTML(e[4])}</div>
+     </div>
+     <button class="secondary" style="width:auto" type="button"
+      onclick="loadSuggestedExercise('${keySafe(e[0])}',${e[1]},'${keySafe(e[2])}')">Log</button>
+    </div>
+   </div>
+  `).join("")}
+ `;
+}
+
+function keySafe(value){
+ return String(value).replaceAll("\\","\\\\").replaceAll("'","\\'");
+}
+
+function selectWorkoutProgram(key){
+ if(!WORKOUT_PROGRAMS[key])return;
+ selectedWorkoutProgram=key;
+ renderWorkoutPrograms();
+}
+
+function loadSuggestedExercise(name,sets,reps){
+ document.getElementById("exerciseName").value=name;
+ document.getElementById("exerciseSets").value=sets;
+ const numeric=String(reps).match(/\d+/);
+ document.getElementById("exerciseReps").value=numeric?numeric[0]:"";
+ document.getElementById("exerciseWeight").focus();
+ document.getElementById("exerciseWeight").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+
 /* TRAINING */
 
 function addWorkout(){
@@ -1557,6 +1677,8 @@ function render(){
 
  const day=todayData();
  const t=totals();
+
+ renderWorkoutPrograms();
 
 
  document.querySelectorAll(
