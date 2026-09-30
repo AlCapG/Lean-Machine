@@ -1273,14 +1273,30 @@ async function lookupBarcode(code){
      </div>
 
 
-     <button
-     onclick='addBarcodeFood(
+    <div style="margin-top:14px">
+  <div class="muted">Number of servings</div>
+
+  <input
+    id="barcodeServings"
+    type="number"
+    inputmode="decimal"
+    min="0.1"
+    step="0.1"
+    value="1"
+  >
+
+  <div id="barcodeCalculated"
+       class="resultMacros"
+       style="margin-top:8px">
+  </div>
+
+  <button
+    onclick='addBarcodeFood(
       ${JSON.stringify(p)}
-     )'>
-
-      Add 1 Serving
-
-     </button>
+    )'>
+    Add to Today
+  </button>
+</div>
 
     </div>
 
@@ -1304,6 +1320,20 @@ async function lookupBarcode(code){
 
 function addBarcodeFood(p){
 
+ const servings=
+ Number(
+  document.getElementById(
+   "barcodeServings"
+  ).value
+ );
+
+ if(!servings || servings<=0){
+
+  alert("Enter the number of servings.");
+  return;
+
+ }
+
  todayData().foods.push({
 
   id:Date.now(),
@@ -1312,30 +1342,36 @@ function addBarcodeFood(p){
 
   brand:p.brand||"",
 
-  amount:1,
+  amount:servings,
 
-  unit:p.serving||
-  "serving",
+  unit:
+   servings===1
+   ?(p.serving||"serving")
+   :"servings",
 
   calories:
-  Number(
-   p.caloriesPerServing
-  )||0,
+   Math.round(
+    (Number(p.caloriesPerServing)||0)
+    *servings
+   ),
 
   protein:
-  Number(
-   p.proteinPerServing
-  )||0,
+   round1(
+    (Number(p.proteinPerServing)||0)
+    *servings
+   ),
 
   carbs:
-  Number(
-   p.carbsPerServing
-  )||0,
+   round1(
+    (Number(p.carbsPerServing)||0)
+    *servings
+   ),
 
   fat:
-  Number(
-   p.fatPerServing
-  )||0,
+   round1(
+    (Number(p.fatPerServing)||0)
+    *servings
+   ),
 
   barcode:p.barcode,
 
@@ -1343,15 +1379,15 @@ function addBarcodeFood(p){
 
  });
 
-
  save();
  render();
-
 
  document.getElementById(
   "barcodeMessage"
  ).textContent=
- "✓ Added to today's food.";
+ "✓ Added "+servings+
+ " serving"+(servings===1?"":"s")+
+ " to today's food.";
 
 }
 
