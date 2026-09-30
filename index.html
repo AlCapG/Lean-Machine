@@ -1313,15 +1313,24 @@ async function lookupBarcode(code){
        style="margin-top:12px">
   </div>
 
-  <button onclick="addCurrentBarcodeFood()">
+  <button id="addBarcodeBtn" type="button">
     Add to Today
   </button>
 
 </div>
+</div>
+</div>
 
   `;
 
-updateBarcodePreview();
+  updateBarcodePreview();
+
+  const addBtn = document.getElementById("addBarcodeBtn");
+  if(addBtn){
+   addBtn.addEventListener("click", function(){
+    addBarcodeFood(p);
+   });
+  }
   
  }catch(error){
 
@@ -1412,12 +1421,16 @@ function addCurrentBarcodeFood(){
 
 function addBarcodeFood(p){
 
+ const servingInput =
+ document.getElementById("barcodeServings");
+
+ if(!p || !servingInput){
+  alert("Please look up the product again.");
+  return;
+ }
+
  const servings=
- Number(
-  document.getElementById(
-   "barcodeServings"
-  ).value
- );
+ Number(servingInput.value);
 
  if(!servings || servings<=0){
 
@@ -1474,7 +1487,15 @@ function addBarcodeFood(p){
  save();
  render();
 
+ const message =
+ document.getElementById("barcodeMessage");
 
+ if(message){
+  message.textContent =
+  "✓ Added " + servings +
+  " serving" + (servings===1 ? "" : "s") +
+  " to today's food.";
+ }
 
 }
 
