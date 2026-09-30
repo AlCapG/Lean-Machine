@@ -414,6 +414,16 @@ style="margin-top:10px"></div>
 
 
 <div class="card">
+<h2>⭐ Saved Foods & Meals</h2>
+<div class="muted">Save foods you use often, or combine foods into a reusable meal.</div>
+<div id="savedFoodsList"></div>
+
+<input id="mealName" placeholder="Meal name e.g. My Breakfast">
+<button class="secondary" type="button" onclick="saveTodaysFoodsAsMeal()">Save Today's Foods as a Meal</button>
+<div id="savedMealsList"></div>
+</div>
+
+<div class="card">
 <h2>Today's Food</h2>
 <div id="foodList"></div>
 </div>
@@ -592,6 +602,9 @@ try{
  data=defaultData();
 
 }
+
+if(!Array.isArray(data.savedFoods)) data.savedFoods=[];
+if(!Array.isArray(data.savedMeals)) data.savedMeals=[];
 
 
 function todayData(){
@@ -1301,6 +1314,74 @@ function deleteFood(id){
 }
 
 
+/* SAVED FOODS & MEALS */
+
+function saveFood(id){
+ const food=todayData().foods.find(f=>f.id===id);
+ if(!food)return;
+
+ const duplicate=data.savedFoods.some(f=>
+  f.name===food.name &&
+  f.brand===food.brand &&
+  Number(f.amount)===Number(food.amount) &&
+  f.unit===food.unit
+ );
+
+ if(!duplicate){
+  data.savedFoods.push({...food,id:Date.now()});
+  save();
+  render();
+ }
+}
+
+function addSavedFood(id){
+ const food=data.savedFoods.find(f=>f.id===id);
+ if(!food)return;
+ todayData().foods.push({...food,id:Date.now()});
+ save();
+ render();
+}
+
+function deleteSavedFood(id){
+ data.savedFoods=data.savedFoods.filter(f=>f.id!==id);
+ save();
+ render();
+}
+
+function saveTodaysFoodsAsMeal(){
+ const name=document.getElementById("mealName").value.trim();
+ const foods=todayData().foods;
+ if(!name){alert("Enter a meal name.");return}
+ if(!foods.length){alert("Add food to today first.");return}
+
+ data.savedMeals.push({
+  id:Date.now(),
+  name,
+  foods:foods.map(f=>({...f,id:undefined}))
+ });
+ document.getElementById("mealName").value="";
+ save();
+ render();
+}
+
+function addSavedMeal(id){
+ const meal=data.savedMeals.find(m=>m.id===id);
+ if(!meal)return;
+ const now=Date.now();
+ meal.foods.forEach((f,i)=>{
+  todayData().foods.push({...f,id:now+i});
+ });
+ save();
+ render();
+}
+
+function deleteSavedMeal(id){
+ data.savedMeals=data.savedMeals.filter(m=>m.id!==id);
+ save();
+ render();
+}
+
+
 /* WEIGHT */
 
 function logWeight(){
@@ -1663,13 +1744,10 @@ function render(){
 
     </div>
 
-    <button
-    class="danger"
-    onclick="deleteFood(${f.id})">
-
-    Delete
-
-    </button>
+    <div style="display:flex;gap:6px;align-items:center">
+     <button class="secondary" onclick="saveFood(${f.id})">⭐ Save</button>
+     <button class="danger" onclick="deleteFood(${f.id})">Delete</button>
+    </div>
 
    </div>
 
@@ -1679,6 +1757,37 @@ function render(){
 
  :'<div class="empty">No food logged yet.</div>';
 
+
+ document.getElementById("savedFoodsList").innerHTML=
+ data.savedFoods.length
+ ?`<div class="muted" style="margin-top:14px">Saved Foods</div>`+
+  data.savedFoods.map(f=>`
+   <div class="foodItem">
+    <strong>${escapeHTML(f.name)}</strong>
+    <div class="muted">${escapeHTML(f.brand||"")}${f.brand?" · ":""}${f.amount||""} ${escapeHTML(f.unit||"")}<br>
+    ${Math.round(f.calories)} kcal · ${round1(f.protein)}g P · ${round1(f.carbs)}g C · ${round1(f.fat)}g F</div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:7px">
+     <button onclick="addSavedFood(${f.id})">+ Add Today</button>
+     <button class="danger" onclick="deleteSavedFood(${f.id})">Delete</button>
+    </div>
+   </div>`).join("")
+ :'<div class="empty">No saved foods yet. Tap ⭐ Save on a food below.</div>';
+
+ document.getElementById("savedMealsList").innerHTML=
+ data.savedMeals.length
+ ?`<div class="muted" style="margin-top:18px">Saved Meals</div>`+
+  data.savedMeals.map(m=>{
+   const cal=m.foods.reduce((n,f)=>n+(Number(f.calories)||0),0);
+   return `<div class="foodItem">
+    <strong>${escapeHTML(m.name)}</strong>
+    <div class="muted">${m.foods.length} item${m.foods.length===1?"":"s"} · ${Math.round(cal)} kcal</div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:7px">
+     <button onclick="addSavedMeal(${m.id})">+ Add Meal</button>
+     <button class="danger" onclick="deleteSavedMeal(${m.id})">Delete</button>
+    </div>
+   </div>`;
+  }).join("")
+ :"";
 
  document.getElementById(
   "workoutList"
