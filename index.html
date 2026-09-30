@@ -1200,7 +1200,7 @@ async function lookupBarcode(code){
 
 
   const p=json.product;
-
+  currentBarcodeProduct = p;
 
   message.textContent=
   "Confirm this is the product you're holding.";
@@ -1321,7 +1321,8 @@ async function lookupBarcode(code){
 
   `;
 
-
+updateBarcodePreview();
+  
  }catch(error){
 
   message.textContent=
